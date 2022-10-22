@@ -20,7 +20,7 @@ public class ThirdParty extends User {
 
     @Override
     public String toString() {
-        return super.toString() + "\n\tThirdParty{" +
+        return "\nThirdParty{" + super.toString() +
                 "hashedKey='" + hashedKey + '\'' +
                 '}';
     }
