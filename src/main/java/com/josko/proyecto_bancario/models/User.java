@@ -43,7 +43,7 @@ public abstract class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "\n\tUser{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
