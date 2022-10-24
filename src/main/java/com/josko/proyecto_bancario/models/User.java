@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
+@Table (name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User {
 
