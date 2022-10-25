@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "basic_account")
@@ -33,12 +34,12 @@ public class BasicAccount {
     public BasicAccount() {
     }
 
-    public BasicAccount(String iban, LocalDate creationDate, BigDecimal penaltyFee, AccountHolder firstAccountHolder, AccountHolder secondAccountholder) {
+    public BasicAccount(String iban, LocalDate creationDate, BigDecimal penaltyFee, AccountHolder firstAccountHolder, Optional<AccountHolder> secondAccountholder) {
         this.iban = iban;
         this.creationDate = creationDate;
         this.penaltyFee = penaltyFee;
         this.firstAccountHolder = firstAccountHolder;
-        this.secondAccountholder = secondAccountholder;
+        this.secondAccountholder = secondAccountholder.get();
     }
 
     public Long getId() {

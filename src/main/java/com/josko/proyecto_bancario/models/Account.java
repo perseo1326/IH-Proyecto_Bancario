@@ -21,7 +21,7 @@ public class Account extends BasicAccount{
         this.initBasicAccount();
     }
 
-    public Account(String iban, LocalDate creationDate, BigDecimal penaltyFee, AccountHolder firstAccountHolder, AccountHolder secondAccountholder) {
+    public Account(String iban, LocalDate creationDate, BigDecimal penaltyFee, AccountHolder firstAccountHolder, Optional<AccountHolder> secondAccountholder) {
         super(iban, creationDate, penaltyFee, firstAccountHolder, secondAccountholder);
         this.initBasicAccount();
     }
