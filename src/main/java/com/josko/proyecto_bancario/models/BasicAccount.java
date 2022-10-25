@@ -8,6 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "basic_account")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class BasicAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
