@@ -45,4 +45,30 @@ public class CreditCard extends BasicAccount {
         // default interes rate = 20%
         this.interesRate = new BigDecimal(0.2);
     }
+
+    public BigDecimal getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(BigDecimal creditLimit) {
+        this.creditLimit = creditLimit;
+    }
+
+    public BigDecimal getInteresRate() {
+        return interesRate;
+    }
+
+    public void setInteresRate(BigDecimal interesRate) {
+        this.interesRate = interesRate;
+    }
+
+    @Override
+    public String toString() {
+        return "\nCreditCard{" + super.toString() +
+                "creditLimit=" + creditLimit +
+                ", interesRate=" + interesRate +
+                '}';
+    }
+
+
 }
