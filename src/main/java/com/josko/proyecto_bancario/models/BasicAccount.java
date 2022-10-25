@@ -1,7 +1,5 @@
 package com.josko.proyecto_bancario.models;
-
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
