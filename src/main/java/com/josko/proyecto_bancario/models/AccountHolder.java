@@ -1,9 +1,7 @@
 package com.josko.proyecto_bancario.models;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -11,9 +9,12 @@ import java.time.LocalDate;
 public class AccountHolder extends User {
 
 
+    @NotNull (message = "The birthdate is mandatory")
+    @Column(nullable = false)
     private LocalDate birthDate;
 
     @OneToOne
+    @NotNull (message = "At least one address must given.")
     @JoinColumn(name = "address_address_id")
     private Address address;
 
