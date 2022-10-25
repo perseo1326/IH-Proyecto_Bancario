@@ -1,4 +1,5 @@
 package com.josko.proyecto_bancario.models;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -7,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @Entity
 @Table(name = "basic_account")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -24,6 +26,10 @@ public class BasicAccount {
     private LocalDate creationDate;
 
     private BigDecimal penaltyFee;
+
+    @Embedded
+    private Money money;
+
     @OneToOne
     @JoinColumn(name = "first_account_holder_user_id")
     private AccountHolder firstAccountHolder;
