@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface Checking extends JpaRepository<Checking, Long> {
+public interface CheckingRepository extends JpaRepository<CheckingRepository, Long> {
 
 
 
