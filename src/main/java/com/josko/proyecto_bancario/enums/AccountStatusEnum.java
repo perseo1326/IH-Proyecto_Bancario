@@ -7,8 +7,7 @@ public enum AccountStatusEnum {
     public boolean contains(String valor) {
 
         if (AccountStatusEnum.ACTIVE.toString().equals(valor) ||
-                AccountStatusEnum.ACTIVE.toString().equals(valor) ||
-                AccountStatusEnum.ACTIVE.toString().equals(valor)) {
+                AccountStatusEnum.FROZEN.toString().equals(valor) ) {
             return true;
         }
         return false;
