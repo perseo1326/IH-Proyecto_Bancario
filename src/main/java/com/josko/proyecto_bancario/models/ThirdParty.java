@@ -12,7 +12,7 @@ import java.util.Objects;
 public class ThirdParty extends User {
 
 //    @JsonAlias("hashedkey")
-    @JsonProperty(value = "hashedkey")
+//    @JsonProperty(value = "hashedkey")
     private String hashedKey;
 
     public ThirdParty() {
