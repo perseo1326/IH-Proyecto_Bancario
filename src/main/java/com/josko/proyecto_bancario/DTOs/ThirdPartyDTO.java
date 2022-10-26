@@ -9,8 +9,8 @@ import javax.validation.constraints.NotNull;
 
 public class ThirdPartyDTO {
 
-    @JsonAlias("type")
-    @JsonProperty(value = "type")
+    @JsonAlias("usertype")
+    @JsonProperty(value = "usertype")
     private UserTypeEnum userTypeEnum;
 
     @NotNull(message = "A valid name has to be provided.")
