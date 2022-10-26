@@ -23,6 +23,13 @@ public class CreditCard extends BasicAccount {
         this.initCreditCard();
     }
 
+    /*
+        RESTRICTIONS:
+            1. CreditCard accounts have a default creditLimit of 100 ( X < 100 )
+            2. CreditCards may be instantiated with a creditLimit higher than 100 but not higher than 100K (100 < X 100K).
+            3. CreditCards have a default interestRate of 0.2 (20%)
+            4. CreditCards may be instantiated with an interestRate less than 0.2 but not lower than 0.1(10% < X < 20%)
+     */
     public CreditCard(String iban, LocalDate creationDate, BigDecimal penaltyFee, AccountHolder firstAccountHolder, Optional<AccountHolder> secondAccountholder, BigDecimal creditLimit, BigDecimal interesRate) {
         super(iban, creationDate, penaltyFee, firstAccountHolder, secondAccountholder);
         // if credit limit fit -> 100 < X < 100K
