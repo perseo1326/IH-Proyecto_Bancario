@@ -1,5 +1,8 @@
 package com.josko.proyecto_bancario.models;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Objects;
@@ -8,6 +11,8 @@ import java.util.Objects;
 @Table(name = "ThirdParties")
 public class ThirdParty extends User {
 
+//    @JsonAlias("hashedkey")
+    @JsonProperty(value = "hashedkey")
     private String hashedKey;
 
     public ThirdParty() {
