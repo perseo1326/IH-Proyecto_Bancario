@@ -43,6 +43,7 @@ public class Account extends BasicAccount{
         return secretKey;
     }
 
+    // TODO: implementar las restricciones en el servicio o duplicarlas aqui tambien??
     public void setSecretKey(String secretKey) {
         if (!secretKey.matches("[0-9]{4}"))
             throw new IllegalArgumentException("The secret key is not valid.");
