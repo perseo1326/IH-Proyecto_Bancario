@@ -2,6 +2,7 @@ package com.josko.proyecto_bancario.services;
 
 import com.josko.proyecto_bancario.DTOs.ThirdPartyDTO;
 import com.josko.proyecto_bancario.enums.AccountTypeEnum;
+import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
 import com.josko.proyecto_bancario.exeptions.IdNotValidExeption;
 import com.josko.proyecto_bancario.models.*;
 import com.josko.proyecto_bancario.repositories.AccountHolderRepository;
@@ -49,18 +50,14 @@ public class AdminService {
     }
 
     // GET AccountHolders By name
-    public List<User> getAccountHolderByName(String name) {
+    public List<AccountHolder> getAccountHolderByName(String name) {
 
-        /*
-        List<User> users = userRepository.findByNameContainsOrderByName(name);
+        List<AccountHolder> users = accountHolderRepository.findByNameContainsOrderByName(name);
         if (users.isEmpty()) {
             log.warn("SERVICE:ADMINSERVICE:getAccountHolderByName: The given name(" + name + ") was not found.");
-            throw new IdNotValidExeption(name);
+            throw new IdNotFoundExeption(name);
         }
         return users;
-
-         */
-        return null;
     }
 
     public List<AccountHolder> findAllAccountHolders() {

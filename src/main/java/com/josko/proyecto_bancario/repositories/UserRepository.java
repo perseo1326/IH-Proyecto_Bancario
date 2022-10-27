@@ -10,9 +10,6 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query("select u from User u where upper(u.name) like upper(concat('%', :name, '%')) order by u.name")
-    List<User> findByNameContainsOrderByName(@Param("name") String name);
-
 
 
 }
