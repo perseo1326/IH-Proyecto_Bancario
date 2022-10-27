@@ -9,10 +9,12 @@ import com.josko.proyecto_bancario.models.User;
 import com.josko.proyecto_bancario.services.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -40,6 +42,20 @@ public class AdminController {
     }
 
     /*
+        - Obtener un AccountHolder por su ID.
+     */
+    @GetMapping("/admins/accountholders/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AccountHolder> getAccountHoldersById(@PathVariable("id") Optional<Long> accountHolderId) {
+
+        if (accountHolderId.isEmpty()) {
+            throw new NotValidDataException("SIN VALORES VALIDOS!");
+        }
+
+        return adminService.getAccountHolderById(accountHolderId.get());
+    }
+
+    /*
         - Obtener el listado de todos los AccountHolders
         - Obtener el listado de AccountHolders por nombre.
      */
@@ -54,23 +70,13 @@ public class AdminController {
         return adminService.findAllAccountHolders();
     }
 
-    @GetMapping("/admins/accountholders/{id}")
+    @GetMapping("/admins/accountholders/birthdate")
     @ResponseStatus(HttpStatus.OK)
-    public List<AccountHolder> getAccountHoldersById(@PathVariable("id") Optional<Long> accountHolderId) {
+    public List<AccountHolder> getAccountHoldersByBirthDateRange(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> initialDate, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> finalDate) {
 
-        if (accountHolderId.isEmpty()) {
-            throw new NotValidDataException("SIN VALORES VALIDOS!");
-        }
-
-        return adminService.getAccountHolderById(accountHolderId.get());
+        return adminService.findByBirthDateValues(initialDate, finalDate);
     }
 
-    @PostMapping("/admins/accounts")
-    @ResponseStatus(HttpStatus.CREATED)
-    public BasicAccount createNewAccount(@RequestBody Map<String, String> values) {
-
-        return adminService.createNewAccount(values);
-    }
 
 
 

@@ -4,6 +4,7 @@ import com.josko.proyecto_bancario.DTOs.ThirdPartyDTO;
 import com.josko.proyecto_bancario.enums.AccountTypeEnum;
 import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
 import com.josko.proyecto_bancario.exeptions.IdNotValidExeption;
+import com.josko.proyecto_bancario.exeptions.NotValidDataException;
 import com.josko.proyecto_bancario.models.*;
 import com.josko.proyecto_bancario.repositories.AccountHolderRepository;
 import com.josko.proyecto_bancario.repositories.ThirdPartyReposiyory;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +66,30 @@ public class AdminService {
 
         return accountHolderRepository.findAll();
     }
+
+    public List<AccountHolder> findByBirthDateValues(Optional<LocalDate> initialDate, Optional<LocalDate> finalDate) {
+
+        // TODO: no se puede usar sentencias ELSE_IF debido a que el metodo DEBE contener un return al final.
+        if (initialDate.isEmpty() && finalDate.isEmpty() ) {
+            log.warn("SERVICE:ADMINSERVICE:findByBirthDateValues: No Date values provided for search.");
+            throw new NotValidDataException("No Date values provided for search.");
+        }
+
+        if (initialDate.isPresent() && finalDate.isEmpty()) {
+            return accountHolderRepository.findByBirthDateLessThanEqualOrderByNameAsc(initialDate.get());
+        }
+
+        if (initialDate.isEmpty() && finalDate.isPresent() )  {
+            return accountHolderRepository.findByBirthDateGreaterThanEqualOrderByNameAsc(finalDate.get());
+        }
+
+        // initialDate.isPresent() && finalDate.isPresent()
+        return accountHolderRepository.findByBirthDateBetween(initialDate.get(), finalDate.get());
+    }
+
+
+
+
 
     public BasicAccount createNewAccount(Map<String, String> values) {
 /*
