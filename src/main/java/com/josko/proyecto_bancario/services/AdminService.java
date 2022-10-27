@@ -22,7 +22,6 @@ import java.util.Optional;
 public class AdminService {
 
     private final ThirdPartyReposiyory thirdPartyReposiyory;
-    private final UserRepository userRepository;
     private final AccountHolderRepository accountHolderRepository;
 
     // CREATE ThirdParty entities
@@ -33,22 +32,20 @@ public class AdminService {
         return thirdPartyReposiyory.save((thirdPartyUser));
     }
 
-    // GET AccountHolders By ID
+    /*
+        GET AccountHolders By ID
+     */
     public List<AccountHolder> getAccountHolderById(Long userId) {
 
-        /*
-        Optional<User> user = userRepository.findById(userId);
+        Optional<AccountHolder> user = accountHolderRepository.findById(userId);
         if (user.isEmpty()) {
             log.warn("SERVICE:ADMINSERVICE:getAccountHolderById: The given ID(" + userId.toString() + ") was not found.");
             throw new IdNotValidExeption(userId.toString());
         }
 
-        List<User> users = new ArrayList<User>();
+        List<AccountHolder> users = new ArrayList<>();
         users.add(user.get());
-//        return users;
-
-         */
-        return null;
+        return users;
     }
 
     // GET AccountHolders By name

@@ -39,15 +39,15 @@ public class AdminController {
     /*
         1. Obtener el listado de todos los accountholders
      */
-    @GetMapping("/admins/accountholders")
+    @GetMapping("/admins/accountholders/{id}")
     @ResponseStatus(HttpStatus.OK)
 //    public List<AccountHolder> getAccountHolders(@PathVariable("id") Optional<Long> accountHolderId, @RequestParam("name") Optional<String> userName) {
-    public List<AccountHolder> getAccountHolders() {
-/*
+    public List<AccountHolder> getAccountHolders(@PathVariable("id") Optional<Long> accountHolderId) {
+
         if (accountHolderId.isPresent()) {
             return adminService.getAccountHolderById(accountHolderId.get());
         }
-
+/*
         if(userName.isPresent()) {
 //            return adminService.getAccountHolderByName(userName.get());
         }
