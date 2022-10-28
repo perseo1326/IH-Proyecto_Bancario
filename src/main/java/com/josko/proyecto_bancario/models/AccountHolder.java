@@ -15,20 +15,20 @@ public class AccountHolder extends User {
 
     @OneToOne
     @NotNull (message = "At least one address must given.")
-    @JoinColumn(name = "address_address_id")
-    private Address address;
+    @JoinColumn(name = "main_address_address_id")
+    private Address mainAddress;
 
     @OneToOne
-    @JoinColumn(name = "mailing_address_address_id")
+    @JoinColumn(name = "secondary_address_address_id")
     private Address secondaryAddress;
 
     public AccountHolder() {
     }
 
-    public AccountHolder(String name, LocalDate birthDate, Address address, Address secondaryAddress) {
+    public AccountHolder(String name, LocalDate birthDate, Address mainAddress, Address secondaryAddress) {
         super(name);
         this.birthDate = birthDate;
-        this.address = address;
+        this.mainAddress = mainAddress;
         this.secondaryAddress = secondaryAddress;
     }
 
@@ -36,8 +36,8 @@ public class AccountHolder extends User {
     public String toString() {
         return "\nAccountHolder{" + super.toString() +
                 "birthDate=" + birthDate +
-                ", address=" + address +
-                ", mailingAddress=" + secondaryAddress +
+                ", address=" + mainAddress +
+                ", mailing Address=" + secondaryAddress +
                 '}';
     }
 
@@ -57,12 +57,12 @@ public class AccountHolder extends User {
         return secondaryAddress;
     }
 
-    public Address getAddress() {
-        return address;
+    public Address getMainAddress() {
+        return mainAddress;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setMainAddress(Address address) {
+        this.mainAddress = address;
     }
 
 
