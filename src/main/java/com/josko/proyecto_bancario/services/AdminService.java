@@ -1,22 +1,22 @@
 package com.josko.proyecto_bancario.services;
 
+import com.josko.proyecto_bancario.DTOs.AccountHolderDTO;
 import com.josko.proyecto_bancario.DTOs.ThirdPartyDTO;
-import com.josko.proyecto_bancario.enums.AccountTypeEnum;
 import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
 import com.josko.proyecto_bancario.exeptions.IdNotValidExeption;
 import com.josko.proyecto_bancario.exeptions.NotValidDataException;
 import com.josko.proyecto_bancario.models.*;
 import com.josko.proyecto_bancario.repositories.AccountHolderRepository;
+import com.josko.proyecto_bancario.repositories.AddressRepository;
 import com.josko.proyecto_bancario.repositories.ThirdPartyReposiyory;
-import com.josko.proyecto_bancario.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -24,16 +24,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminService {
 
+    private final AddressRepository addressRepository;
     private final ThirdPartyReposiyory thirdPartyReposiyory;
     private final AccountHolderRepository accountHolderRepository;
-
-    // CREATE ThirdParty entities
-    public ThirdParty createThirdPartyUser(ThirdPartyDTO newThirdPartyDTO) {
-        log.info("SERVICE:ADMINSERVICE:createThirdPartyUser: Creating a new ThirdParty user.");
-
-        ThirdParty thirdPartyUser = new ThirdParty(newThirdPartyDTO.getName(),newThirdPartyDTO.getHashedKey());
-        return thirdPartyReposiyory.save((thirdPartyUser));
-    }
 
     /*
         GET AccountHolders By ID
@@ -62,11 +55,17 @@ public class AdminService {
         return users;
     }
 
+    /*
+        GET all account holders in the database.
+     */
     public List<AccountHolder> findAllAccountHolders() {
 
         return accountHolderRepository.findAll();
     }
 
+    /*
+        GET accountHolders in a date range or since a given date, look before or after that date.
+     */
     public List<AccountHolder> findByBirthDateValues(Optional<LocalDate> initialDate, Optional<LocalDate> finalDate) {
 
         // TODO: no se puede usar sentencias ELSE_IF debido a que el metodo DEBE contener un return al final.
@@ -87,37 +86,40 @@ public class AdminService {
         return accountHolderRepository.findByBirthDateBetween(initialDate.get(), finalDate.get());
     }
 
+    /*
+        CREATE a new AccountHolder entity in the DB.
+     */
+    public AccountHolder createAccountHolderUser(@Valid AccountHolderDTO newAccountHolderDTO) {
+        log.info("SERVICE:ADMINSERVICE:createAccountHolderUser: Creating a new AccountHolder user.");
 
+        Address mainAddress = new Address();
+        mainAddress.clone(newAccountHolderDTO.getMainAddress());
 
+        AccountHolder accountHolder = new AccountHolder();
+        accountHolder.setName(newAccountHolderDTO.getName());
+        accountHolder.setBirthDate(newAccountHolderDTO.getBirthDate());
+        accountHolder.setMainAddress(addressRepository.save(newAccountHolderDTO.getMainAddress()));
 
+        if (newAccountHolderDTO.getSecondaryAddress().isPresent()) {
+            Address mailingAddress = new Address();
+            mailingAddress.clone(newAccountHolderDTO.getSecondaryAddress().get());
 
-    public BasicAccount createNewAccount(Map<String, String> values) {
-/*
-        if (!values.containsKey("accountType") || !AccountTypeEnum.CHECKING.contains(values.get("accountType"))) {
-            log.warn("SERVICE:ADMINSERVICE:createNewAccount: No valid accountType selected.");
-            throw new IllegalArgumentException("No valid account type selected.");
+            accountHolder.setSecondaryAddress(addressRepository.save(newAccountHolderDTO.getSecondaryAddress().get()));
         }
 
-        if (!values.containsKey("mainOwnerId")) {
-            log.warn("SERVICE:ADMINSERVICE:createNewAccount: The values supplied are not valid.");
-            throw new IllegalArgumentException("The values supplied are not valid.");
-        }
-
-        Optional<User> mainOwner = userRepository.findById(Long.parseLong(values.get("mainOwnerId")));
-
-        if (mainOwner.isEmpty()) {
-            log.warn("SERVICE:ADMINSERVICE:createNewAccount: Not a valid user ID provided.");
-            throw new IllegalArgumentException("Not a valid user ID provided.");
-        }
-
-        // TODO: necesario terminar
-
-
-        System.out.println("\n" + values);
-  */
-        return null;
-
+        return accountHolderRepository.save(accountHolder);
     }
+
+    /*
+        CREATE ThirdParty entities in the DB.
+     */
+    public ThirdParty createThirdPartyUser(ThirdPartyDTO newThirdPartyDTO) {
+        log.info("SERVICE:ADMINSERVICE:createThirdPartyUser: Creating a new ThirdParty user.");
+
+        ThirdParty thirdPartyUser = new ThirdParty(newThirdPartyDTO.getName(), newThirdPartyDTO.getHashedKey());
+        return thirdPartyReposiyory.save(thirdPartyUser);
+    }
+
 
 
 

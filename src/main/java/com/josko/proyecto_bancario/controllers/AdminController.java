@@ -1,5 +1,6 @@
 package com.josko.proyecto_bancario.controllers;
 
+import com.josko.proyecto_bancario.DTOs.AccountHolderDTO;
 import com.josko.proyecto_bancario.DTOs.ThirdPartyDTO;
 import com.josko.proyecto_bancario.exeptions.NotValidDataException;
 import com.josko.proyecto_bancario.models.AccountHolder;
@@ -34,11 +35,24 @@ public class AdminController {
         return "Hola, Bienvenido a la interfaz bancaria.";
     }
 
-    @PostMapping("/admins")
+    /*
+        POST: Create a new ThirdParty user.
+     */
+    @PostMapping("/admins/newthirdparty")
     @ResponseStatus(HttpStatus.CREATED)
-    public ThirdParty createThirdPartyUser(@Valid @RequestBody ThirdPartyDTO newThirdPartyDTO) {
+    public ThirdParty createThirdPartyUser(@Valid @RequestBody ThirdPartyDTO thirdPartyDTO) {
 
-        return adminService.createThirdPartyUser(newThirdPartyDTO);
+        return adminService.createThirdPartyUser(thirdPartyDTO);
+    }
+
+    /*
+        POST: Create a new AccountHolder User
+     */
+    @PostMapping("/admins/newaccountholder")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AccountHolder createAccountHolderUser(@RequestBody @Valid AccountHolderDTO accountHolderDTO) {
+
+        return adminService.createAccountHolderUser(accountHolderDTO);
     }
 
     /*
