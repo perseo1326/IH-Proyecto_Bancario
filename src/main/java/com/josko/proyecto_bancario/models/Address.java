@@ -51,6 +51,15 @@ public class Address {
         return getId().equals(address.getId());
     }
 
+    public void clone(Address address) {
+        this.country = address.getCountry();
+        this.city = address.getCity();
+        this.street = address.getStreet();
+        this.houseNumber = address.getHouseNumber();
+        this.homeUnit = address.getHomeUnit();
+        this.comment =address.getComment();
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(getId());
