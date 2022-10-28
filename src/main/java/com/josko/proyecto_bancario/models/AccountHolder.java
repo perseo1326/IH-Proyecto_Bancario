@@ -20,16 +20,16 @@ public class AccountHolder extends User {
 
     @OneToOne
     @JoinColumn(name = "mailing_address_address_id")
-    private Address mailingAddress;
+    private Address secondaryAddress;
 
     public AccountHolder() {
     }
 
-    public AccountHolder(String name, LocalDate birthDate, Address address, Address mailingAddress) {
+    public AccountHolder(String name, LocalDate birthDate, Address address, Address secondaryAddress) {
         super(name);
         this.birthDate = birthDate;
         this.address = address;
-        this.mailingAddress = mailingAddress;
+        this.secondaryAddress = secondaryAddress;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class AccountHolder extends User {
         return "\nAccountHolder{" + super.toString() +
                 "birthDate=" + birthDate +
                 ", address=" + address +
-                ", mailingAddress=" + mailingAddress +
+                ", mailingAddress=" + secondaryAddress +
                 '}';
     }
 
@@ -49,12 +49,12 @@ public class AccountHolder extends User {
         this.birthDate = birthDate;
     }
 
-    public void setMailingAddress(Address mailingAddress) {
-        this.mailingAddress = mailingAddress;
+    public void setSecondaryAddress(Address mailingAddress) {
+        this.secondaryAddress = mailingAddress;
     }
 
-    public Address getMailingAddress() {
-        return mailingAddress;
+    public Address getSecondaryAddress() {
+        return secondaryAddress;
     }
 
     public Address getAddress() {
