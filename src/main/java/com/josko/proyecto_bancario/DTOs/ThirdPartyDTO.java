@@ -9,10 +9,6 @@ import javax.validation.constraints.NotNull;
 
 public class ThirdPartyDTO {
 
-    @JsonAlias("userType")
-    @JsonProperty(value = "userType")
-    private UserTypeEnum userTypeEnum;
-
     @NotNull(message = "A valid name has to be provided.")
     private String name;
 
@@ -20,18 +16,9 @@ public class ThirdPartyDTO {
     @JsonProperty(value = "hashedkey")
     private String hashedKey;
 
-    public ThirdPartyDTO(UserTypeEnum userTypeEnum, String name, String hashedKey) {
-        this.userTypeEnum = userTypeEnum;
+    public ThirdPartyDTO(String name, String hashedKey) {
         this.name = name;
         this.hashedKey = hashedKey;
-    }
-
-    public UserTypeEnum getUserTypeEnum() {
-        return userTypeEnum;
-    }
-
-    public void setUserTypeEnum(UserTypeEnum userTypeEnum) {
-        this.userTypeEnum = userTypeEnum;
     }
 
     public String getName() {
@@ -53,7 +40,6 @@ public class ThirdPartyDTO {
     @Override
     public String toString() {
         return "\nThirdPartyDTO{" +
-                "userTypeEnum=" + userTypeEnum +
                 ", name='" + name + '\'' +
                 ", hashedKey='" + hashedKey + '\'' +
                 '}';
