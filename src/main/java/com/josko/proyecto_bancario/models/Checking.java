@@ -24,8 +24,11 @@ public class Checking extends Account {
         this.initChecking();
     }
 
-    public Checking(String iban, LocalDate creationDate, BigDecimal penaltyFee, AccountHolder firstAccountHolder, Optional<AccountHolder> secondAccountholder) {
-        super(iban, creationDate, penaltyFee, firstAccountHolder, secondAccountholder);
+    public Checking(AccountHolder firstAccountHolder,
+                    Optional<AccountHolder> secondAccountholder,
+                    String iban,
+                    Money balance) {
+        super(firstAccountHolder, secondAccountholder, iban, balance);
         this.initChecking();
     }
 
