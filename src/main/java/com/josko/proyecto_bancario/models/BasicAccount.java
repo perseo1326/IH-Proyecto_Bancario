@@ -1,18 +1,21 @@
 package com.josko.proyecto_bancario.models;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
-@Slf4j
+
 @Entity
 @Table(name = "basic_account")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class BasicAccount {
+
+    @Transient
+    private static final BigDecimal PENALTY_FEE = new BigDecimal(40);
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "basic_account_id", nullable = false)
@@ -21,15 +24,21 @@ public class BasicAccount {
     @NotNull(message = "IBAN cannot be null.")
     private String iban;
 
-    @NotNull(message = "The birthdate cannot be null.")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate creationDate;
-
-    private BigDecimal penaltyFee;
+    @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME )
+    private LocalDateTime creationTime;
 
     @Embedded
-    private Money money;
+    @AttributeOverrides({
+            @AttributeOverride( name = "currency", column = @Column(name = "currency_penalty_fee")),
+            @AttributeOverride( name = "amount", column = @Column(name = "amount_penalty_fee")),
+    })
+    private Money penaltyFee;
 
+    @Embedded
+    protected Money balance;
+
+    @NotNull(message = "No user was assigned to the account.")
     @OneToOne
     @JoinColumn(name = "first_account_holder_user_id")
     private AccountHolder firstAccountHolder;
@@ -37,15 +46,21 @@ public class BasicAccount {
     @JoinColumn(name = "second_accountholder_user_id")
     private AccountHolder secondAccountholder;
 
+    private void initBasicAccount() {
+        this.creationTime = LocalDateTime.now();
+        // TODO: como crear una variable global con el tipo de moneda por defecto?
+        this.penaltyFee = new Money( PENALTY_FEE );
+    }
+
     public BasicAccount() {
     }
 
-    public BasicAccount(String iban, LocalDate creationDate, BigDecimal penaltyFee, AccountHolder firstAccountHolder, Optional<AccountHolder> secondAccountholder) {
-        this.iban = iban;
-        this.creationDate = creationDate;
-        this.penaltyFee = penaltyFee;
+    public BasicAccount(AccountHolder firstAccountHolder, Optional<AccountHolder> secondAccountholder, String iban, Money balance ) {
         this.firstAccountHolder = firstAccountHolder;
         this.secondAccountholder = secondAccountholder.get();
+        this.iban = iban;
+        this.balance = new Money(balance.getAmount(), balance.getCurrency());
+        this.initBasicAccount();
     }
 
     public Long getId() {
@@ -60,19 +75,19 @@ public class BasicAccount {
         this.iban = iban;
     }
 
-    public LocalDate getCreationDate() {
-        return creationDate;
+    public LocalDateTime getCreationTime() {
+        return creationTime;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
+    public void setCreationTime(@NotNull LocalDateTime creationTime) {
+        this.creationTime = creationTime;
     }
 
-    public BigDecimal getPenaltyFee() {
+    public Money getPenaltyFee() {
         return penaltyFee;
     }
 
-    public void setPenaltyFee(BigDecimal penaltyFee) {
+    public void setPenaltyFee(Money penaltyFee) {
         this.penaltyFee = penaltyFee;
     }
 
@@ -94,13 +109,14 @@ public class BasicAccount {
 
     @Override
     public String toString() {
-        return "BasicAccount{" +
+        return "\nBasicAccount{" +
                 "id=" + id +
                 ", iban='" + iban + '\'' +
-                ", creationDate=" + creationDate +
+                ", creationTime=" + creationTime +
                 ", penaltyFee=" + penaltyFee +
-//                ", firstAccountHolder=" + firstAccountHolder +
-//                ", secondAccountholder=" + secondAccountholder +
+                ", balance=" + balance +
+                ", firstAccountHolder=" + firstAccountHolder +
+                ", secondAccountholder=" + secondAccountholder +
                 '}';
     }
 
