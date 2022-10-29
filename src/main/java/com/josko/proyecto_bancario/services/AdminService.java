@@ -138,7 +138,7 @@ public class AdminService {
             throw new IdNotFoundExeption(userId.toString());
         }
 
-        Optional<AccountHolder> secondaryOwner = null;
+        Optional<AccountHolder> secondaryOwner = Optional.ofNullable(null);
         if (newSavingsDTO.getSecondaryOwner().isPresent()) {
             secondaryOwner = accountHolderRepository.findById(newSavingsDTO.getSecondaryOwner().get());
             if (secondaryOwner.isEmpty()) {
