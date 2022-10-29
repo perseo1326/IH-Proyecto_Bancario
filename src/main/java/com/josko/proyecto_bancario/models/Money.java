@@ -77,8 +77,11 @@ public class Money {
         this.amount = amount;
     }
 
+    @Override
     public String toString() {
-        return getCurrency().getSymbol() + " " + getAmount();
+        return "\t\tMoney{" +
+                "currency = " + currency +
+                ", amount = " + amount +
+                '}';
     }
-
 }
