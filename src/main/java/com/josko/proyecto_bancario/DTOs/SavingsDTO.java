@@ -6,7 +6,7 @@ import com.josko.proyecto_bancario.models.Money;
 import java.math.BigDecimal;
 import java.util.Optional;
 
-public class SavingDTO {
+public class SavingsDTO {
 
     private Optional<Long> secondaryOwner;
 
@@ -18,7 +18,7 @@ public class SavingDTO {
 
     private Money balance;
 
-    public SavingDTO(Optional<Long> secondaryOwner, String iban, Money balance, Optional<BigDecimal> interesRate, Optional<BigDecimal> minimumBalance) {
+    public SavingsDTO(Optional<Long> secondaryOwner, String iban, Money balance, Optional<BigDecimal> interesRate, Optional<BigDecimal> minimumBalance) {
         this.secondaryOwner = secondaryOwner;
         this.iban = iban;
         this.balance = new Money(balance.getAmount(), balance.getCurrency());

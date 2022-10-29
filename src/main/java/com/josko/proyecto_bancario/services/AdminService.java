@@ -1,7 +1,7 @@
 package com.josko.proyecto_bancario.services;
 
 import com.josko.proyecto_bancario.DTOs.AccountHolderDTO;
-import com.josko.proyecto_bancario.DTOs.SavingDTO;
+import com.josko.proyecto_bancario.DTOs.SavingsDTO;
 import com.josko.proyecto_bancario.DTOs.ThirdPartyDTO;
 import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
 import com.josko.proyecto_bancario.exeptions.IdNotValidExeption;
@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +128,7 @@ public class AdminService {
     /*
         CREATE a new 'Savings' account for a selected AccountHolder.
      */
-    public Savings createNewSavingsAccount(Long userId, SavingDTO newSavingsDTO) {
+    public Savings createNewSavingsAccount(Long userId, SavingsDTO newSavingsDTO) {
         log.info("SERVICE:ADMINSERVICE:createNewSavingsAccount: Creating a new 'Savings' for user ID: [" + userId.toString() + "]");
 
         Optional<AccountHolder> mainAccountHolder = accountHolderRepository.findById(userId);

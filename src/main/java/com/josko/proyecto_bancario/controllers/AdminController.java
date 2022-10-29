@@ -1,7 +1,7 @@
 package com.josko.proyecto_bancario.controllers;
 
 import com.josko.proyecto_bancario.DTOs.AccountHolderDTO;
-import com.josko.proyecto_bancario.DTOs.SavingDTO;
+import com.josko.proyecto_bancario.DTOs.SavingsDTO;
 import com.josko.proyecto_bancario.DTOs.ThirdPartyDTO;
 import com.josko.proyecto_bancario.exeptions.NotValidDataException;
 import com.josko.proyecto_bancario.models.*;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -97,7 +96,7 @@ public class AdminController {
      */
     @PostMapping("/admins/accountholders/{id}/newsavings")
     @ResponseStatus(HttpStatus.CREATED)
-    public Savings createNewSavingsAccount(@PathVariable("id") Long userId, @Valid @RequestBody SavingDTO newSavingsDTO) {
+    public Savings createNewSavingsAccount(@PathVariable("id") Long userId, @Valid @RequestBody SavingsDTO newSavingsDTO) {
 
         return adminService.createNewSavingsAccount(userId, newSavingsDTO );
     }
