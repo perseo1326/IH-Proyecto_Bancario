@@ -14,8 +14,11 @@ public class StudentChecking extends Account {
         super();
     }
 
-    public StudentChecking(String iban, LocalDate creationDate, BigDecimal penaltyFee, AccountHolder firstAccountHolder, Optional<AccountHolder> secondAccountholder) {
-        super(iban, creationDate, penaltyFee, firstAccountHolder, secondAccountholder);
+    public StudentChecking(AccountHolder firstAccountHolder,
+                           Optional<AccountHolder> secondAccountholder,
+                           String iban,
+                           Money balance) {
+        super(firstAccountHolder, secondAccountholder, iban, balance);
     }
 
     @Override
