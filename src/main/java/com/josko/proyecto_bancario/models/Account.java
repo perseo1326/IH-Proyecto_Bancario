@@ -3,8 +3,6 @@ package com.josko.proyecto_bancario.models;
 import com.josko.proyecto_bancario.enums.AccountStatusEnum;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Entity
@@ -18,15 +16,13 @@ public class Account extends BasicAccount{
     private String secretKey;
 
     public Account() {
-        this.initBasicAccount();
     }
 
-    public Account(String iban, LocalDate creationDate, BigDecimal penaltyFee, AccountHolder firstAccountHolder, Optional<AccountHolder> secondAccountholder) {
-        super(iban, creationDate, penaltyFee, firstAccountHolder, secondAccountholder);
-        this.initBasicAccount();
-    }
-
-    private void initBasicAccount() {
+    public Account(AccountHolder firstAccountHolder,
+                   Optional<AccountHolder> secondAccountholder,
+                   String iban,
+                   Money balance) {
+        super(firstAccountHolder, secondAccountholder, iban, balance);
         accountStatusEnum = AccountStatusEnum.ACTIVE;
         this.secretKey = "0000";
     }
@@ -52,7 +48,7 @@ public class Account extends BasicAccount{
 
     @Override
     public String toString() {
-        return "\nAccount{" + super.toString() +
+        return "\n\tAccount{" + super.toString() +
                 "accountStatusEnum=" + accountStatusEnum +
                 ", secretKey='" + secretKey + '\'' +
                 '}';
