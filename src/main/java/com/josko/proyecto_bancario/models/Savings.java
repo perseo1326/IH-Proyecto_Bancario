@@ -1,6 +1,8 @@
 package com.josko.proyecto_bancario.models;
 
+import com.josko.proyecto_bancario.services.ValidatorService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,13 +16,9 @@ import java.util.Optional;
 @Table(name = "savings")
 public class Savings extends Account {
 
-    // default interes rate = 0.25% = 0.0025
     @Transient
-    private final BigDecimal INTERES_RATE = new BigDecimal(0.0025);
-    // default minimumBalance = 1K
-    @Transient
-    private final BigDecimal MINIMUM_BALANCE = new BigDecimal(1000);
-
+    @Autowired
+    private ValidatorService validatorService;
     @Column(precision = 5, scale = 4)
     private BigDecimal interesRate;
 
@@ -40,40 +38,9 @@ public class Savings extends Account {
                    Optional<BigDecimal> interesRate,
                    Optional<BigDecimal> minimumBalance) {
         super(firstAccountHolder, secondAccountholder, iban, balance);
-
-        if (interesRate.isEmpty()) {
-            this.interesRate = INTERES_RATE;
-        }
-        else {
-            /*
-                RESTRICTION:
-                    - Savings accounts have a default interest rate of 0.0025 ( 0.25%)
-                    - Savings accounts may be instantiated with an interest rate other than the default, with a maximum interest rate of 0.5 (0.25% < X < 0.5%)
-             */
-            if ((interesRate.get().compareTo(new BigDecimal(0.0025)) < 0) || interesRate.get().compareTo(new BigDecimal(0.005)) > 0) {
-                log.error("PERSISTENCE:SAVINGS:Constructor: The interes rate is not in a valid range.");
-                throw new IllegalArgumentException("The interes rate do not meet the request.");
-            }
-            this.interesRate = interesRate.get();
-        }
-
-        if (minimumBalance.isEmpty()) {
-            this.minimumBalance = MINIMUM_BALANCE;
-        }
-        else {
-            /*
-                RESTRICTION:
-                    - Savings accounts should have a default minimumBalance of 1000 (X > 1K)
-                    - Savings accounts may be instantiated with a minimum balance of less than 1000 but no lower than 100 ( 100 < X < 1K)
-             */
-            if (minimumBalance.get().compareTo(new BigDecimal(100)) < 0 || minimumBalance.get().compareTo(new BigDecimal(1000)) > 0) {
-                log.error("PERSISTENCE:SAVINGS:Constructor: The minimumBalance is not valid (" + minimumBalance.toString() + ").");
-                throw new IllegalArgumentException("The minimumBalance is not in a valid range.");
-            }
-            this.minimumBalance = minimumBalance.get();
-        }
+        this.interesRate = validatorService.validateInteresRate(interesRate);
+        this.minimumBalance = validatorService.validateMinimumBalance(minimumBalance);
     }
-
 
     public BigDecimal getInteresRate() {
         return interesRate;
