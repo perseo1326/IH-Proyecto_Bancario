@@ -1,12 +1,10 @@
 package com.josko.proyecto_bancario.controllers;
 
 import com.josko.proyecto_bancario.DTOs.AccountHolderDTO;
+import com.josko.proyecto_bancario.DTOs.SavingDTO;
 import com.josko.proyecto_bancario.DTOs.ThirdPartyDTO;
 import com.josko.proyecto_bancario.exeptions.NotValidDataException;
-import com.josko.proyecto_bancario.models.AccountHolder;
-import com.josko.proyecto_bancario.models.BasicAccount;
-import com.josko.proyecto_bancario.models.ThirdParty;
-import com.josko.proyecto_bancario.models.User;
+import com.josko.proyecto_bancario.models.*;
 import com.josko.proyecto_bancario.services.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,11 +82,24 @@ public class AdminController {
         return adminService.findAllAccountHolders();
     }
 
+    /*
+        GET: Realizar busquedas por rango de fechas de nacimiento, y tambien hasta y desde una fecha determinada.
+     */
     @GetMapping("/admins/accountholders/birthdate")
     @ResponseStatus(HttpStatus.OK)
     public List<AccountHolder> getAccountHoldersByBirthDateRange(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> initialDate, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> finalDate) {
 
         return adminService.findByBirthDateValues(initialDate, finalDate);
+    }
+
+    /*
+        POST: creacion de una cuenta de tipo 'Savings' para el usuario seleccionando
+     */
+    @PostMapping("/admins/accountholders/{id}/newsavings")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Savings createNewSavingsAccount(@PathVariable("id") Long userId, @Valid @RequestBody SavingDTO newSavingsDTO) {
+
+        return adminService.createNewSavingsAccount(userId, newSavingsDTO );
     }
 
 

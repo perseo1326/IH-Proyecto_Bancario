@@ -1,6 +1,7 @@
 package com.josko.proyecto_bancario.services;
 
 import com.josko.proyecto_bancario.DTOs.AccountHolderDTO;
+import com.josko.proyecto_bancario.DTOs.SavingDTO;
 import com.josko.proyecto_bancario.DTOs.ThirdPartyDTO;
 import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
 import com.josko.proyecto_bancario.exeptions.IdNotValidExeption;
@@ -8,12 +9,14 @@ import com.josko.proyecto_bancario.exeptions.NotValidDataException;
 import com.josko.proyecto_bancario.models.*;
 import com.josko.proyecto_bancario.repositories.AccountHolderRepository;
 import com.josko.proyecto_bancario.repositories.AddressRepository;
+import com.josko.proyecto_bancario.repositories.SavingsRepository;
 import com.josko.proyecto_bancario.repositories.ThirdPartyReposiyory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,8 @@ public class AdminService {
     private final AddressRepository addressRepository;
     private final ThirdPartyReposiyory thirdPartyReposiyory;
     private final AccountHolderRepository accountHolderRepository;
+
+    private final SavingsRepository savingsRepository;
 
     /*
         GET AccountHolders By ID
@@ -121,6 +126,33 @@ public class AdminService {
     }
 
 
+    /*
+        CREATE a new 'Savings' account for a selected AccountHolder.
+     */
+    public Savings createNewSavingsAccount(Long userId, SavingDTO newSavingsDTO) {
+        log.info("SERVICE:ADMINSERVICE:createNewSavingsAccount: Creating a new 'Savings' for user ID: [" + userId.toString() + "]");
+
+        Optional<AccountHolder> mainAccountHolder = accountHolderRepository.findById(userId);
+        if (mainAccountHolder .isEmpty()) {
+            log.warn("The account Holder user ID is not found.");
+            throw new IdNotFoundExeption(userId.toString());
+        }
+
+        Optional<AccountHolder> secondaryOwner = null;
+        if (newSavingsDTO.getSecondaryOwner().isPresent()) {
+            secondaryOwner = accountHolderRepository.findById(newSavingsDTO.getSecondaryOwner().get());
+            if (secondaryOwner.isEmpty()) {
+                log.warn("The secondary account Holder user ID is not found.");
+                throw new IdNotFoundExeption(newSavingsDTO.getSecondaryOwner().get().toString());
+            }
+        }
 
 
+        Savings savingsAccount = new Savings(mainAccountHolder.get(), secondaryOwner, newSavingsDTO.getIban(), newSavingsDTO.getBalance(), newSavingsDTO.getInteresRate(), newSavingsDTO.getMinimumBalance() );
+
+        var x = savingsRepository.save(savingsAccount);
+        System.out.println("\nValor de X: " + x.toString());
+
+        return x;
+    }
 }
