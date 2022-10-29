@@ -46,21 +46,20 @@ public class BasicAccount {
     @JoinColumn(name = "second_accountholder_user_id")
     private AccountHolder secondAccountholder;
 
-    private void initBasicAccount() {
-        this.creationTime = LocalDateTime.now();
-        // TODO: como crear una variable global con el tipo de moneda por defecto?
-        this.penaltyFee = new Money( PENALTY_FEE );
-    }
-
     public BasicAccount() {
     }
 
     public BasicAccount(AccountHolder firstAccountHolder, Optional<AccountHolder> secondAccountholder, String iban, Money balance ) {
         this.firstAccountHolder = firstAccountHolder;
-        this.secondAccountholder = secondAccountholder.get();
+        if (secondAccountholder.isPresent()) {
+            this.secondAccountholder = secondAccountholder.get();
+        } else {
+            this.secondAccountholder = null;
+        }
         this.iban = iban;
         this.balance = new Money(balance.getAmount(), balance.getCurrency());
-        this.initBasicAccount();
+        this.creationTime = LocalDateTime.now();
+        this.penaltyFee = new Money( PENALTY_FEE );
     }
 
     public Long getId() {
