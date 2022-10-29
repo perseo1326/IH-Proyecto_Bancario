@@ -18,8 +18,11 @@ public class CreditCard extends BasicAccount {
         this.initCreditCard();
     }
 
-    public CreditCard(String iban, LocalDate creationDate, BigDecimal penaltyFee, AccountHolder firstAccountHolder, Optional<AccountHolder> secondAccountholder) {
-        super(iban, creationDate, penaltyFee, firstAccountHolder, secondAccountholder);
+    public CreditCard(AccountHolder firstAccountHolder,
+                      Optional<AccountHolder> secondAccountholder,
+                      String iban,
+                      Money balance) {
+        super(firstAccountHolder, secondAccountholder, iban, balance);
         this.initCreditCard();
     }
 
@@ -30,8 +33,12 @@ public class CreditCard extends BasicAccount {
             3. CreditCards have a default interestRate of 0.2 (20%)
             4. CreditCards may be instantiated with an interestRate less than 0.2 but not lower than 0.1(10% < X < 20%)
      */
-    public CreditCard(String iban, LocalDate creationDate, BigDecimal penaltyFee, AccountHolder firstAccountHolder, Optional<AccountHolder> secondAccountholder, BigDecimal creditLimit, BigDecimal interesRate) {
-        super(iban, creationDate, penaltyFee, firstAccountHolder, secondAccountholder);
+    public CreditCard(AccountHolder firstAccountHolder,
+                      Optional<AccountHolder> secondAccountholder,
+                      String iban,
+                      Money balance,
+                      BigDecimal creditLimit, BigDecimal interesRate) {
+        super(firstAccountHolder, secondAccountholder, iban, balance);
         // if credit limit fit -> 100 < X < 100K
 
         if (creditLimit.compareTo(new BigDecimal(100)) < 0 || creditLimit.compareTo(new BigDecimal(100_000)) > 0 ) {
