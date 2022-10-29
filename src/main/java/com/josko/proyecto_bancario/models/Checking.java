@@ -15,13 +15,7 @@ public class Checking extends Account {
 
     private BigDecimal monthlyMaintenanceFee;
 
-    private void initChecking() {
-        this.minimumBalance = new BigDecimal(250);
-        this.monthlyMaintenanceFee = new BigDecimal(12);
-    }
-
     public Checking() {
-        this.initChecking();
     }
 
     public Checking(AccountHolder firstAccountHolder,
@@ -29,7 +23,8 @@ public class Checking extends Account {
                     String iban,
                     Money balance) {
         super(firstAccountHolder, secondAccountholder, iban, balance);
-        this.initChecking();
+        this.minimumBalance = new BigDecimal(250);
+        this.monthlyMaintenanceFee = new BigDecimal(12);
     }
 
     public BigDecimal getMinimumBalance() {

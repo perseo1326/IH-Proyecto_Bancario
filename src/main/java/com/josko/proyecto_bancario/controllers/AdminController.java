@@ -1,6 +1,7 @@
 package com.josko.proyecto_bancario.controllers;
 
 import com.josko.proyecto_bancario.DTOs.AccountHolderDTO;
+import com.josko.proyecto_bancario.DTOs.CheckingDTO;
 import com.josko.proyecto_bancario.DTOs.SavingsDTO;
 import com.josko.proyecto_bancario.DTOs.ThirdPartyDTO;
 import com.josko.proyecto_bancario.exeptions.NotValidDataException;
@@ -101,6 +102,15 @@ public class AdminController {
         return adminService.createNewSavingsAccount(userId, newSavingsDTO );
     }
 
+    /*
+        POST: Creacion de una nueva cuenta del tipo 'Checking' para el usuario seleccionado
+     */
+    @PostMapping("/admins/accountholders/{id}/newchecking")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Checking createNewCheckingAccount(@PathVariable("id") Long userId, @Valid @RequestBody CheckingDTO checkingDTO) {
+
+        return adminService.createNewCheckingAccount(userId, checkingDTO);
+    }
 
 
 
