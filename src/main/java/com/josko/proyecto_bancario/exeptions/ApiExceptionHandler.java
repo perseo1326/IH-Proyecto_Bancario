@@ -46,13 +46,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return getResponseError(HttpStatus.INTERNAL_SERVER_ERROR,  exception.getMessage());
     }
 
-    /*
+
     @ExceptionHandler(value = {StatusNotValidExeption.class})
     protected ResponseEntity<ResponseObjectError> handleStatusNotValidFound(RuntimeException exception, WebRequest webRequest) {
-        log.error(ERROR_400);
-        return getResponseError(HttpStatus.BAD_REQUEST, exception.getMessage());
+        log.error(ERROR_500);
+        return getResponseError(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
     }
-    */
+
 
     private ResponseEntity<ResponseObjectError> getResponseError(HttpStatus httpStatus, String message) {
 

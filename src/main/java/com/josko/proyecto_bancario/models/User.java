@@ -98,7 +98,6 @@ public class User {
         this.name = name;
     }
 
-    // TODO: implementacin correcta?
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }

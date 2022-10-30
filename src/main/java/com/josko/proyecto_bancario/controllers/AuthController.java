@@ -12,7 +12,9 @@ import com.josko.proyecto_bancario.security_pkg.payload.response.JwtResponse;
 import com.josko.proyecto_bancario.security_pkg.payload.response.MessageResponse;
 import com.josko.proyecto_bancario.security_pkg.security.jwt.JwtUtils;
 import com.josko.proyecto_bancario.security_pkg.security.services.UserDetailsImpl;
+import com.josko.proyecto_bancario.services.ValidatorService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,9 +26,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
+@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1")
@@ -34,7 +39,7 @@ import java.util.stream.Collectors;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final ValidatorService validatorService;
     private final PasswordEncoder encoder;
     private final JwtUtils jwtUtils;
 
@@ -64,7 +69,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser( @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
@@ -78,44 +83,21 @@ public class AuthController {
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-//                encoder.encode(signUpRequest.getPassword()));
-                signUpRequest.getPassword());
+        User user = new User(signUpRequest.getName(),
+                                signUpRequest.getUsername(),
+                                signUpRequest.getEmail(),
+                                encoder.encode(signUpRequest.getPassword()));
 
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
 
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
+        Set<Role> roleSet = new HashSet<>();
 
-                        break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(RoleEnum.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
+        // clean the info from the user and convert it to a valid 'Role' data.
+        roleSet = validatorService.validateRoleStringSet(signUpRequest.getRole());
 
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                }
-            });
-        }
-
-        user.setRoles(roles);
+        user.setRoles(roleSet);
         userRepository.save(user);
 
+        // TODO: mejorar el mensaje de respuesta (created - ResponseObjectError.class)???
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }

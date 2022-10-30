@@ -1,14 +1,19 @@
 package com.josko.proyecto_bancario.services;
 
+import com.josko.proyecto_bancario.enums.RoleEnum;
 import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
 import com.josko.proyecto_bancario.models.AccountHolder;
+import com.josko.proyecto_bancario.models.Role;
 import com.josko.proyecto_bancario.repositories.AccountHolderRepository;
+import com.josko.proyecto_bancario.repositories.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -23,6 +28,7 @@ public class ValidatorService {
     private final BigDecimal CREDIT_LIMIT = new BigDecimal(100);
     //  CreditCards have a default interestRate of 0.2
     private final BigDecimal CREDIT_CARD_INTERES_RATE = new BigDecimal(0.2);
+    private final RoleRepository roleRepository;
     private final AccountHolderRepository accountHolderRepository;
 
 
@@ -164,7 +170,22 @@ public class ValidatorService {
         return validCreditCartInteresRate;
     }
 
+    public Set<Role> validateRoleStringSet(Set<String> roleStringSet) {
 
+        Set<Role> roleSet = new HashSet<>();
+
+        for ( String role : roleStringSet) {
+            if (RoleEnum.ROLE_USER.contains(role.toUpperCase())) {
+                roleSet.add( roleRepository.findByRoleName(RoleEnum.ROLE_THIRDPARTY.getValue(role.toUpperCase())));
+            }
+        }
+
+        // No Role was specified, we assign the default: THIRDPARTY
+        if (roleSet.isEmpty()){
+            roleSet.add( roleRepository.findByRoleName(RoleEnum.ROLE_THIRDPARTY));
+        }
+        return roleSet;
+    }
 
 
 
