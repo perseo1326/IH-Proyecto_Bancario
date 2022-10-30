@@ -27,39 +27,39 @@ INSERT INTO addresses (country, city, street, house_number, home_unit, COMMENT) 
 INSERT INTO addresses (country, city, street, house_number, home_unit, COMMENT)   VALUES ('Mexico', 'Merida', 'Paseo de Montejo', '33', 'Casa Azul', 'Al lado del monumento' );
 
 -- insercion de usuarios Administradores
-INSERT INTO users (name, username, email, password) VALUES ('John', 'john', 'john@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Alfredo', 'alfredo', 'alfredo@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Cristian', 'cristian', 'cristian@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Raúl', 'raúl', 'raúl@email.com', '1234');
+INSERT INTO users (name, username, email, password) VALUES ('John', 'john', 'john@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Alfredo', 'alfredo', 'alfredo@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Cristian', 'cristian', 'cristian@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Raúl', 'raúl', 'raúl@email.com', '123456');
 
 
 -- insercion de usuarios 'Users'
-INSERT INTO users (name, username, email, password) VALUES ('Alberto', 'alberto', 'alberto@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Bernardo', 'bernardo', 'bernardo@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Carlos', 'carlos', 'carlos@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Daniel', 'daniel', 'daniel@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Ernesto', 'ernesto', 'ernesto@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Fernando', 'fernando', 'fernando@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Gladys', 'gladys', 'gladys@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Hernan', 'hernan', 'hernan@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Ivan', 'ivan', 'ivan@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Jose', 'jose', 'jose@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Kevin', 'kevin', 'kevin@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Liliana', 'liliana', 'liliana@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Maria', 'maria', 'maria@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Nancy', 'nancy', 'nancy@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Orlando', 'orlando', 'orlando@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Pedro', 'pedro', 'pedro@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Quentin', 'quentin', 'quentin@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Ramon', 'ramon', 'ramon@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Samuel', 'samuel', 'samuel@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Tomas', 'tomas', 'tomas@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Ubaldo', 'ubaldo', 'ubaldo@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Veronica', 'veronica', 'veronica@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Wendy', 'wendy', 'wendy@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Xochil', 'xochil', 'xochil@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Yolanda', 'yolanda', 'yolanda@email.com', '1234');
-INSERT INTO users (name, username, email, password) VALUES ('Zoe', 'zoe', 'zoe@email.com', '1234');
+INSERT INTO users (name, username, email, password) VALUES ('Alberto', 'alberto', 'alberto@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Bernardo', 'bernardo', 'bernardo@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Carlos', 'carlos', 'carlos@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Daniel', 'daniel', 'daniel@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Ernesto', 'ernesto', 'ernesto@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Fernando', 'fernando', 'fernando@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Gladys', 'gladys', 'gladys@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Hernan', 'hernan', 'hernan@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Ivan', 'ivan', 'ivan@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Jose', 'jose', 'jose@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Kevin', 'kevin', 'kevin@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Liliana', 'liliana', 'liliana@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Maria', 'maria', 'maria@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Nancy', 'nancy', 'nancy@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Orlando', 'orlando', 'orlando@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Pedro', 'pedro', 'pedro@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Quentin', 'quentin', 'quentin@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Ramon', 'ramon', 'ramon@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Samuel', 'samuel', 'samuel@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Tomas', 'tomas', 'tomas@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Ubaldo', 'ubaldo', 'ubaldo@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Veronica', 'veronica', 'veronica@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Wendy', 'wendy', 'wendy@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Xochil', 'xochil', 'xochil@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Yolanda', 'yolanda', 'yolanda@email.com', '123456');
+INSERT INTO users (name, username, email, password) VALUES ('Zoe', 'zoe', 'zoe@email.com', '123456');
 
 
 -- insercion y enlace de administradores con usuarios
