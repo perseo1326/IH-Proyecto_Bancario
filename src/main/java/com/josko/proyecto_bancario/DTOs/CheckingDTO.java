@@ -2,6 +2,7 @@ package com.josko.proyecto_bancario.DTOs;
 
 import com.josko.proyecto_bancario.models.Money;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ public class CheckingDTO {
 
 
     private Optional<Long> secondaryOwner;
+    @NotNull(message = "The IBAN cannot be empty.")
     private String iban;
     private Money balance;
     private Optional<BigDecimal> minimumBalance;
