@@ -1,13 +1,13 @@
 
 
 DELETE FROM roles WHERE TRUE;
-DELETE FROM user_roles WHERE TRUE;
 DELETE FROM admins WHERE TRUE;
 DELETE FROM third_parties WHERE TRUE;
 DELETE FROM account_holders WHERE TRUE;
 
 DELETE FROM addresses WHERE TRUE;
 
+DELETE FROM users_roles WHERE TRUE;
 DELETE FROM users WHERE TRUE;
 
 INSERT INTO roles (role_name) VALUES ('ROLE_ADMIN'),
@@ -96,32 +96,32 @@ INSERT INTO account_holders (user_id, birth_date, main_address_address_id, secon
 
 
 -- insercion en user_roles para enlazar administradores con sus roles de Admin
-INSERT INTO user_roles (user_id, role_id) VALUES(( (SELECT user_id FROM users WHERE NAME LIKE 'John')  ), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_ADMIN' ) );
-INSERT INTO user_roles (user_id, role_id) VALUES(( (SELECT user_id FROM users WHERE NAME LIKE 'Alfredo')  ), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_ADMIN' ) );
-INSERT INTO user_roles (user_id, role_id) VALUES(( (SELECT user_id FROM users WHERE NAME LIKE 'Cristian')  ), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_ADMIN' ) );
-INSERT INTO user_roles (user_id, role_id) VALUES(( (SELECT user_id FROM users WHERE NAME LIKE 'Raúl')  ), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_ADMIN' ) );
+INSERT INTO users_roles (user_id, role_id) VALUES(( (SELECT user_id FROM users WHERE NAME LIKE 'John')  ), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_ADMIN' ) );
+INSERT INTO users_roles (user_id, role_id) VALUES(( (SELECT user_id FROM users WHERE NAME LIKE 'Alfredo')  ), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_ADMIN' ) );
+INSERT INTO users_roles (user_id, role_id) VALUES(( (SELECT user_id FROM users WHERE NAME LIKE 'Cristian')  ), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_ADMIN' ) );
+INSERT INTO users_roles (user_id, role_id) VALUES(( (SELECT user_id FROM users WHERE NAME LIKE 'Raúl')  ), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_ADMIN' ) );
 
 
 -- insercion de Roles para usuarios 'AccountHolders'
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Alberto'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_USER') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Bernardo'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_USER') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Carlos'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_USER') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Daniel'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_USER') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Ernesto'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_USER') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Fernando'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_USER') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Gladys'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_USER') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Hernan'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_USER') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Ivan'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_USER') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Jose'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_USER') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Kevin'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_USER') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Alberto'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_USER') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Bernardo'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_USER') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Carlos'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_USER') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Daniel'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_USER') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Ernesto'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_USER') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Fernando'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_USER') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Gladys'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_USER') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Hernan'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_USER') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Ivan'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_USER') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Jose'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_USER') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Kevin'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_USER') );
 
 
 -- insercion de Roles para usuarios 'ThirdParty'
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Samuel'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Tomas'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Ubaldo'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Veronica'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Wendy'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Xochil'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Yolanda'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
-INSERT INTO user_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Zoe'), ( SELECT ID FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Samuel'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Tomas'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Ubaldo'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Veronica'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Wendy'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Xochil'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Yolanda'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
+INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WHERE NAME LIKE 'Zoe'), ( SELECT role_id FROM roles WHERE role_name LIKE 'ROLE_THIRDPARTY') );
