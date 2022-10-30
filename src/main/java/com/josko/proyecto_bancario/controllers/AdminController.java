@@ -1,9 +1,6 @@
 package com.josko.proyecto_bancario.controllers;
 
-import com.josko.proyecto_bancario.DTOs.AccountHolderDTO;
-import com.josko.proyecto_bancario.DTOs.CheckingDTO;
-import com.josko.proyecto_bancario.DTOs.SavingsDTO;
-import com.josko.proyecto_bancario.DTOs.ThirdPartyDTO;
+import com.josko.proyecto_bancario.DTOs.*;
 import com.josko.proyecto_bancario.exeptions.NotValidDataException;
 import com.josko.proyecto_bancario.models.*;
 import com.josko.proyecto_bancario.services.AdminService;
@@ -110,6 +107,13 @@ public class AdminController {
     public Checking createNewCheckingAccount(@PathVariable("id") Long userId, @Valid @RequestBody CheckingDTO checkingDTO) {
 
         return adminService.createNewCheckingAccount(userId, checkingDTO);
+    }
+
+    @PostMapping("/admins/accountholders/{id}/newcreditcard")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CreditCard createNewCreditCardAccount(@PathVariable("id") Long userId, @Valid @RequestBody CreditCardDTO creditCardDTO) {
+
+        return adminService.createNewCreditCardAccount(userId, creditCardDTO);
     }
 
 

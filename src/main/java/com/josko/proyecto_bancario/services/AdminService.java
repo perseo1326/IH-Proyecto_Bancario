@@ -1,9 +1,6 @@
 package com.josko.proyecto_bancario.services;
 
-import com.josko.proyecto_bancario.DTOs.AccountHolderDTO;
-import com.josko.proyecto_bancario.DTOs.CheckingDTO;
-import com.josko.proyecto_bancario.DTOs.SavingsDTO;
-import com.josko.proyecto_bancario.DTOs.ThirdPartyDTO;
+import com.josko.proyecto_bancario.DTOs.*;
 import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
 import com.josko.proyecto_bancario.exeptions.IdNotValidExeption;
 import com.josko.proyecto_bancario.exeptions.NotValidDataException;
@@ -140,6 +137,9 @@ public class AdminService {
         return savingsRepository.save(savingsAccount);
     }
 
+    /*
+        Method for create new Checking accoungs related to a user.
+     */
     public Checking createNewCheckingAccount(Long userId, @Valid CheckingDTO checkingDTO) {
         log.info("SERVICE:ADMINSERVICE:createNewCheckingAccount: Creating a new 'Checking' for user ID: [" + userId.toString() + "]");
 
@@ -152,5 +152,18 @@ public class AdminService {
         return checkingRepository.save(checkingAccount);
     }
 
+    /*
+        Method for create a new 'CreditCard' associated to a user.
+    */
+    public CreditCard createNewCreditCardAccount(Long userId, CreditCardDTO creditCardDTO) {
+        log.info("ADMINSERVICE:createNewCreditCardAccount: Method to create a new 'CreditCard' Account.");
 
+        Optional<AccountHolder> mainAccountHolder = validatorService.getMainAccountHolder(userId);
+
+        Optional<AccountHolder> secondaryOwner = validatorService.getSecondaryAccountHolder(creditCardDTO.getSecondaryOwner());
+
+        CreditCard creditCardAccount = new CreditCard(mainAccountHolder.get(), secondaryOwner, creditCardDTO.getIban(), creditCardDTO.getBalance(), creditCardDTO.getCreditLimit(), creditCardDTO.getCreditCardInteresRate());
+
+        return creditCardRepository.save(creditCardAccount);
+    }
 }

@@ -3,6 +3,7 @@ package com.josko.proyecto_bancario.models;
 import com.josko.proyecto_bancario.services.ValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -14,11 +15,12 @@ import java.util.Optional;
 public class CreditCard extends BasicAccount {
 
     @Transient
-    @Autowired
+//    @Autowired
     private ValidatorService validatorService;
 
+    @Column(name = "credit_limit", precision = 8, scale = 2)
     private BigDecimal creditLimit;
-
+    @Column(name = "interes_rate", precision = 2, scale = 1)
     private BigDecimal interesRate;
 
     public CreditCard() {
@@ -31,6 +33,9 @@ public class CreditCard extends BasicAccount {
                       Optional<BigDecimal> creditLimit,
                       Optional<BigDecimal> interesRate) {
         super(firstAccountHolder, secondAccountholder, iban, balance);
+
+        // TODO:xq 'validatoService' es null???
+        var x = validatorService;
 
         this.creditLimit = validatorService.validateCreditLimit(creditLimit);
         this.interesRate = validatorService.validateCreditCartInteresRate(interesRate);
