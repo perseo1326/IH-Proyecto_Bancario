@@ -32,6 +32,4 @@ public enum AccountTypeEnum {
             return null;
     }
 
-
-
 }

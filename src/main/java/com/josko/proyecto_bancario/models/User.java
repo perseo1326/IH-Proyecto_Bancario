@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @Table (name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
+//                @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
         })
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -24,10 +24,11 @@ public class User {
     @Column(name = "user_id", nullable = false, updatable = false)
     private Long id;
 
-    @NotNull(message = "Name cannot be null.")
+    @NotBlank(message = "Name cannot be null.")
     private String name;
 
     @NotBlank(message = "Username cannot be empty.")
+    @Column(name = "username")
     @Size(min = 3)
     private String username;
 
@@ -53,8 +54,9 @@ public class User {
         this.name = name;
     }
 
-    public User(String name, String email, String password) {
+    public User(String name, String username, String email, String password) {
         this.name = name;
+        this.username = username;
         this.email = email;
         this.password = password;
     }
