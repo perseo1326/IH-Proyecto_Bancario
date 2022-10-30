@@ -1,11 +1,21 @@
 package com.josko.proyecto_bancario.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table (name = "users")
+@Table (name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        })
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
@@ -17,6 +27,25 @@ public class User {
     @NotNull(message = "Name cannot be null.")
     private String name;
 
+    @NotBlank(message = "Username cannot be empty.")
+    @Size(min = 3)
+    private String username;
+
+    @NotBlank
+    @Size(max = 50)
+    @Email
+    private String email;
+
+    @NotBlank
+    private String password;
+
+    @ManyToMany
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+
 
     public User() { }
 
@@ -24,6 +53,11 @@ public class User {
         this.name = name;
     }
 
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -60,5 +94,26 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    // TODO: implementacin correcta?
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Role> getRoles() {
+        return this.roles;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 }
