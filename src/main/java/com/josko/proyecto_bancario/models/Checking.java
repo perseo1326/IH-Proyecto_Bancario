@@ -3,7 +3,6 @@ package com.josko.proyecto_bancario.models;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Entity
@@ -21,10 +20,10 @@ public class Checking extends Account {
     public Checking(AccountHolder firstAccountHolder,
                     Optional<AccountHolder> secondAccountholder,
                     String iban,
-                    Money balance) {
+                    Money balance, BigDecimal minimumBalance, BigDecimal monthlyMaintenanceFee) {
         super(firstAccountHolder, secondAccountholder, iban, balance);
-        this.minimumBalance = new BigDecimal(250);
-        this.monthlyMaintenanceFee = new BigDecimal(12);
+        this.minimumBalance = minimumBalance;
+        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
     }
 
     public BigDecimal getMinimumBalance() {
