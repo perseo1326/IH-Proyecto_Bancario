@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,13 +18,14 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/admins")
 @RequiredArgsConstructor
 public class AdminController {
 
     private final AdminService adminService;
 
-    @RequestMapping("/admins")
+    @RequestMapping("/welcome")
+//    @PreAuthorize("hasAuthority('ROL_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public String adminWelcome() {
 
@@ -33,7 +35,7 @@ public class AdminController {
     /*
         POST: Create a new ThirdParty user.
      */
-    @PostMapping("/admins/newthirdparty")
+    @PostMapping("/newthirdparty")
     @ResponseStatus(HttpStatus.CREATED)
     public ThirdParty createThirdPartyUser(@Valid @RequestBody ThirdPartyDTO thirdPartyDTO) {
 
@@ -43,7 +45,7 @@ public class AdminController {
     /*
         POST: Create a new AccountHolder User
      */
-    @PostMapping("/admins/newaccountholder")
+    @PostMapping("/newaccountholder")
     @ResponseStatus(HttpStatus.CREATED)
     public AccountHolder createAccountHolderUser(@RequestBody @Valid AccountHolderDTO accountHolderDTO) {
 
@@ -53,7 +55,7 @@ public class AdminController {
     /*
         - Obtener un AccountHolder por su ID.
      */
-    @GetMapping("/admins/accountholders/{id}")
+    @GetMapping("/accountholders/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<AccountHolder> getAccountHoldersById(@PathVariable("id") Optional<Long> accountHolderId) {
 
@@ -68,7 +70,7 @@ public class AdminController {
         - Obtener el listado de todos los AccountHolders
         - Obtener el listado de AccountHolders por nombre.
      */
-    @GetMapping("/admins/accountholders")
+    @GetMapping("/accountholders")
     @ResponseStatus(HttpStatus.OK)
     public List<AccountHolder> getAccountHolders_AndByName(@RequestParam("name") Optional<String> userName) {
 
@@ -82,7 +84,7 @@ public class AdminController {
     /*
         GET: Realizar busquedas por rango de fechas de nacimiento, y tambien hasta y desde una fecha determinada.
      */
-    @GetMapping("/admins/accountholders/birthdate")
+    @GetMapping("/accountholders/birthdate")
     @ResponseStatus(HttpStatus.OK)
     public List<AccountHolder> getAccountHoldersByBirthDateRange(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> initialDate, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> finalDate) {
 
@@ -92,7 +94,7 @@ public class AdminController {
     /*
         POST: creacion de una cuenta de tipo 'Savings' para el usuario seleccionando
      */
-    @PostMapping("/admins/accountholders/{id}/newsavings")
+    @PostMapping("/accountholders/{id}/newsavings")
     @ResponseStatus(HttpStatus.CREATED)
     public Savings createNewSavingsAccount(@PathVariable("id") Long userId, @Valid @RequestBody SavingsDTO newSavingsDTO) {
 
@@ -102,14 +104,14 @@ public class AdminController {
     /*
         POST: Creacion de una nueva cuenta del tipo 'Checking' para el usuario seleccionado
      */
-    @PostMapping("/admins/accountholders/{id}/newchecking")
+    @PostMapping("/accountholders/{id}/newchecking")
     @ResponseStatus(HttpStatus.CREATED)
     public Checking createNewCheckingAccount(@PathVariable("id") Long userId, @Valid @RequestBody CheckingDTO checkingDTO) {
 
         return adminService.createNewCheckingAccount(userId, checkingDTO);
     }
 
-    @PostMapping("/admins/accountholders/{id}/newcreditcard")
+    @PostMapping("/accountholders/{id}/newcreditcard")
     @ResponseStatus(HttpStatus.CREATED)
     public CreditCard createNewCreditCardAccount(@PathVariable("id") Long userId, @Valid @RequestBody CreditCardDTO creditCardDTO) {
 

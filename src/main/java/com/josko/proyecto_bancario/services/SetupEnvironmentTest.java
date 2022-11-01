@@ -19,13 +19,8 @@ public class SetupEnvironmentTest {
 
     public void SetUp () {
 
-//        Admin a1 = new Admin("alberto");
-//
-//        var x = adminRepository.save(a1);
-//        System.out.println("\nValor de Admin: " + x);
+
     }
 
-    public void tearDown() {
-//        System.out.println("\nEstamos en tear down!");
-    }
+    public void tearDown() { }
 }

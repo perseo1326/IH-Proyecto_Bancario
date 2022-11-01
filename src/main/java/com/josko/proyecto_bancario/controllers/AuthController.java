@@ -1,10 +1,8 @@
 package com.josko.proyecto_bancario.controllers;
 
 
-import com.josko.proyecto_bancario.enums.RoleEnum;
 import com.josko.proyecto_bancario.models.Role;
 import com.josko.proyecto_bancario.models.User;
-import com.josko.proyecto_bancario.repositories.RoleRepository;
 import com.josko.proyecto_bancario.repositories.UserRepository;
 import com.josko.proyecto_bancario.security_pkg.payload.request.LoginRequest;
 import com.josko.proyecto_bancario.security_pkg.payload.request.SignupRequest;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 

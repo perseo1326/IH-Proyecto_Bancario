@@ -1,6 +1,7 @@
 package com.josko.proyecto_bancario.security_pkg.security;
 
 
+import com.josko.proyecto_bancario.enums.RoleEnum;
 import com.josko.proyecto_bancario.security_pkg.security.jwt.AuthEntryPointJwt;
 import com.josko.proyecto_bancario.security_pkg.security.jwt.AuthTokenFilter;
 import com.josko.proyecto_bancario.security_pkg.security.jwt.JwtUtils;
@@ -59,12 +60,20 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/v1/**").permitAll()
-//                .antMatchers("/api/test/**").permitAll()
+                .exceptionHandling()
+                .authenticationEntryPoint(unauthorizedHandler)
+                .and()
+                .sessionManagement().
+                sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/v1/admins/**").hasAuthority(RoleEnum.ROL_ADMIN.toString())
+//                .antMatchers("/api/v1/accountholder/**").hasRole(RoleEnum.ROL_USER.toString())
+//                .antMatchers("/api/v1/signup/**").hasRole(RoleEnum.ROL_ADMIN.toString())
+                .antMatchers("/api/v1/signin/**").permitAll()
+                .antMatchers("/api/v1/test/**").permitAll()
+//                .antMatchers("/api/v1/**").permitAll()
                 .anyRequest().authenticated();
-
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

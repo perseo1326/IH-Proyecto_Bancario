@@ -16,7 +16,9 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 public class Role {
+
     @Id
+    @Column(name = "role_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 

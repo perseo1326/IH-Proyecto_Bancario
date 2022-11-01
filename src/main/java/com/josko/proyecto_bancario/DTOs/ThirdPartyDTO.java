@@ -3,7 +3,6 @@ package com.josko.proyecto_bancario.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.josko.proyecto_bancario.enums.UserTypeEnum;
 
 import javax.validation.constraints.NotNull;
 
