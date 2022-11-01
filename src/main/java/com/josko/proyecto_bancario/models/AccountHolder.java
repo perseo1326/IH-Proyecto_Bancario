@@ -25,8 +25,8 @@ public class AccountHolder extends User {
     public AccountHolder() {
     }
 
-    public AccountHolder(String name, LocalDate birthDate, Address mainAddress, Address secondaryAddress) {
-        super(name);
+    public AccountHolder(String name, String username, String email, String password, LocalDate birthDate, Address mainAddress, Address secondaryAddress) {
+        super(name, username, email, password);
         this.birthDate = birthDate;
         this.mainAddress = mainAddress;
         this.secondaryAddress = secondaryAddress;

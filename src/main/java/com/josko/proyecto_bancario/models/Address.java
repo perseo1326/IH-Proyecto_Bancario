@@ -30,6 +30,15 @@ public class Address {
         this.comment = comment;
     }
 
+    public Address(Address address) {
+        this.country = address.country;
+        this.city = address.city;
+        this.street = address.street;
+        this.houseNumber = address.houseNumber;
+        this.homeUnit = address.getHomeUnit();
+        this.comment = address.comment;
+    }
+
     @Override
     public String toString() {
         return "\nAddress{" +

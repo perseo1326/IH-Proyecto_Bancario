@@ -21,13 +21,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminService {
 
-    private final AddressRepository addressRepository;
     private final ThirdPartyService thirdPartyService;
-    private final AccountHolderRepository accountHolderRepository;
-    private final SavingsRepository savingsRepository;
-    private final CheckingRepository checkingRepository;
-    private final CreditCardRepository creditCardRepository;
-    private final ValidatorService validatorService;
+    private final AccountHolderService accountHolderService;
+    private final AccountHolderRepository accountHolderRepository;  // *
+    private final SavingsRepository savingsRepository;  // *
+    private final CheckingRepository checkingRepository;  // *
+    private final CreditCardRepository creditCardRepository;  // *
+    private final ValidatorService validatorService;  // *
 
     /*
         GET AccountHolders By ID
@@ -61,7 +61,7 @@ public class AdminService {
      */
     public List<AccountHolder> findAllAccountHolders() {
 
-        return accountHolderRepository.findAll();
+        return accountHolderService.findAllAccountHolders();
     }
 
     /*
@@ -93,22 +93,7 @@ public class AdminService {
     public AccountHolder createAccountHolderUser(@Valid AccountHolderDTO newAccountHolderDTO) {
         log.info("ADMINSERVICE:createAccountHolderUser: Creating a new AccountHolder user.");
 
-        Address mainAddress = new Address();
-        mainAddress.clone(newAccountHolderDTO.getMainAddress());
-
-        AccountHolder accountHolder = new AccountHolder();
-        accountHolder.setName(newAccountHolderDTO.getName());
-        accountHolder.setBirthDate(newAccountHolderDTO.getBirthDate());
-        accountHolder.setMainAddress(addressRepository.save(newAccountHolderDTO.getMainAddress()));
-
-        if (newAccountHolderDTO.getSecondaryAddress().isPresent()) {
-            Address mailingAddress = new Address();
-            mailingAddress.clone(newAccountHolderDTO.getSecondaryAddress().get());
-
-            accountHolder.setSecondaryAddress(addressRepository.save(newAccountHolderDTO.getSecondaryAddress().get()));
-        }
-
-        return accountHolderRepository.save(accountHolder);
+        return accountHolderService.createNewAccountHolderUser(newAccountHolderDTO);
     }
 
     /*
