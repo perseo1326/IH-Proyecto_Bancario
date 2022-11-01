@@ -5,10 +5,13 @@ import com.josko.proyecto_bancario.enums.RoleEnum;
 import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
 import com.josko.proyecto_bancario.exeptions.IdNotValidExeption;
 import com.josko.proyecto_bancario.exeptions.NotValidDataException;
+import com.josko.proyecto_bancario.exeptions.SearchWithNoResultsException;
 import com.josko.proyecto_bancario.models.AccountHolder;
 import com.josko.proyecto_bancario.models.Address;
+import com.josko.proyecto_bancario.models.BasicAccount;
 import com.josko.proyecto_bancario.repositories.AccountHolderRepository;
 import com.josko.proyecto_bancario.repositories.AddressRepository;
+import com.josko.proyecto_bancario.repositories.BasicAccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,7 @@ public class AccountHolderService {
     private final UserService userService;
     private final AccountHolderRepository accountHolderRepository;
     private final AddressRepository addressRepository;
+    private final BasicAccountRepository basicAccountRepository;
 
 
     public AccountHolder createNewAccountHolderUser(AccountHolderDTO newAccountHolderDTO) {
@@ -104,7 +108,7 @@ public class AccountHolderService {
         Method to validate a Long ID into a main or primary AccountHolder.
     */
     public Optional<AccountHolder> getMainAccountHolder(Long userId) {
-        log.info("VALIDATOR_SERVICE:getMainAccountHolder: Validating AccountHolder from ID.");
+        log.info("ACCOUNTHOLDER_SERVICE:getMainAccountHolder: Validating AccountHolder from ID.");
 
         Optional<AccountHolder> accountHolder = accountHolderRepository.findById(userId);
         if (accountHolder .isEmpty()) {
@@ -118,7 +122,7 @@ public class AccountHolderService {
     Method to validate a secondaryAccountHolder from an ID.
     */
     public Optional<AccountHolder> getSecondaryAccountHolder(Optional<Long> secondaryAccountHolder) {
-        log.info("VALIDATOR_SERVICE:getSecondaryAccountHolder: Validating a secondary AccountHolder.");
+        log.info("ACCOUNTHOLDER_SERVICE:getSecondaryAccountHolder: Validating a secondary AccountHolder.");
 
         Optional<AccountHolder> secondaryOwner = Optional.ofNullable(null);
 
@@ -132,7 +136,19 @@ public class AccountHolderService {
         return secondaryOwner;
     }
 
+    /*
+        Method to show the accounts that belong to an AccountHolder
+     */
+    public List<BasicAccount> getAllAccountsFromAccountHolderUser(Long userId) {
+        log.info("ACCOUNTHOLDER_SERVICE:getAllAccountsFromAccountHolderUser: Getting all accounts from user ID(" + userId.toString() + ").");
 
+        Optional<AccountHolder> accountHolder = getMainAccountHolder(userId);
 
+        List<BasicAccount> basicAccountList = basicAccountRepository.findByFirstOrSecondAccountHolderById_OrderedByName(accountHolder.get().getId(), accountHolder.get().getId());
 
+        if (basicAccountList.isEmpty()) {
+            throw new SearchWithNoResultsException("The user ID(" + userId + ") does not have any account.");
+        }
+        return basicAccountList;
+    }
 }

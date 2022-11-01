@@ -117,6 +117,12 @@ public class AdminController {
         return adminService.createNewCreditCardAccount(userId, creditCardDTO);
     }
 
+    @GetMapping("/accountholders/{id}/accounts")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BasicAccount>  getAllAccountsFromAccountHolderUser(@PathVariable("id") Long userId) {
+
+        return adminService.getAllAccountsFromAccountHolderUser(userId);
+    }
 
 
 

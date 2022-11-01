@@ -96,4 +96,11 @@ public class AdminService {
         return creditCardService.createNewCreditCardAccount(userId, creditCardDTO);
     }
 
+    /*
+        Method to show the accounts that belong to an AccountHolder
+     */
+    public List<BasicAccount>  getAllAccountsFromAccountHolderUser(Long userId) {
+
+        return accountHolderService.getAllAccountsFromAccountHolderUser(userId);
+    }
 }
