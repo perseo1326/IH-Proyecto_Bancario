@@ -1,9 +1,6 @@
 package com.josko.proyecto_bancario.services;
 
 import com.josko.proyecto_bancario.DTOs.*;
-import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
-import com.josko.proyecto_bancario.exeptions.IdNotValidExeption;
-import com.josko.proyecto_bancario.exeptions.NotValidDataException;
 import com.josko.proyecto_bancario.models.*;
 import com.josko.proyecto_bancario.repositories.*;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +19,9 @@ public class AdminService {
 
     private final ThirdPartyService thirdPartyService;
     private final AccountHolderService accountHolderService;
-    private final AccountHolderRepository accountHolderRepository;  // *
+
+    private final CheckingService checkingService;
     private final SavingsRepository savingsRepository;  // *
-    private final CheckingRepository checkingRepository;  // *
     private final CreditCardRepository creditCardRepository;  // *
     private final ValidatorService validatorService;  // *
 
@@ -96,15 +92,8 @@ public class AdminService {
         Method for create new Checking accoungs related to a user.
      */
     public Checking createNewCheckingAccount(Long userId, @Valid CheckingDTO checkingDTO) {
-        log.info("ADMINSERVICE:createNewCheckingAccount: Creating a new 'Checking' for user ID: [" + userId.toString() + "]");
 
-        Optional<AccountHolder> mainAccountHolder = validatorService.getMainAccountHolder(userId);
-
-        Optional<AccountHolder> secondaryOwner = validatorService.getSecondaryAccountHolder(checkingDTO.getSecondaryOwner());
-
-        Checking checkingAccount = new Checking(mainAccountHolder.get(), secondaryOwner, checkingDTO.getIban(), checkingDTO.getBalance());
-
-        return checkingRepository.save(checkingAccount);
+        return checkingService.createNewCheckingAccount(userId, checkingDTO);
     }
 
     /*

@@ -91,6 +91,16 @@ public class AdminController {
     }
 
     /*
+    POST: Creacion de una nueva cuenta del tipo 'Checking' para el usuario seleccionado
+ */
+    @PostMapping("/accountholders/{id}/newchecking")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Checking createNewCheckingAccount(@PathVariable("id") Long userId, @RequestBody CheckingDTO checkingDTO) {
+
+        return adminService.createNewCheckingAccount(userId, checkingDTO);
+    }
+
+    /*
         POST: creacion de una cuenta de tipo 'Savings' para el usuario seleccionando
      */
     @PostMapping("/accountholders/{id}/newsavings")
@@ -98,16 +108,6 @@ public class AdminController {
     public Savings createNewSavingsAccount(@PathVariable("id") Long userId, @Valid @RequestBody SavingsDTO newSavingsDTO) {
 
         return adminService.createNewSavingsAccount(userId, newSavingsDTO );
-    }
-
-    /*
-        POST: Creacion de una nueva cuenta del tipo 'Checking' para el usuario seleccionado
-     */
-    @PostMapping("/accountholders/{id}/newchecking")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Checking createNewCheckingAccount(@PathVariable("id") Long userId, @Valid @RequestBody CheckingDTO checkingDTO) {
-
-        return adminService.createNewCheckingAccount(userId, checkingDTO);
     }
 
     @PostMapping("/accountholders/{id}/newcreditcard")
