@@ -25,15 +25,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     private final String ERROR_418 = "418 I'm a teapot (RFC 2324)";
     private final String ERROR_500 = "500 Internal Server Error";
 
-//    @ExceptionHandler(value = {InvocationTargetException.class, MismatchedInputException.class, NotValidDataException.class})
+//    @ExceptionHandler(value = {MismatchedInputException.class, InvocationTargetException.class})
     @ExceptionHandler(value = {NotValidDataException.class})
     protected ResponseEntity<ResponseObjectError> handleNotValidData(RuntimeException exception, WebRequest webRequest) {
         log.error(ERROR_418);
         return getResponseError(HttpStatus.I_AM_A_TEAPOT, exception.getMessage());
     }
 
-//    @ExceptionHandler(value = {MethodArgumentTypeMismatchException.class, IllegalArgumentException.class, IdNotFoundExeption.class, IdNotValidExeption.class})
-    @ExceptionHandler(value = {IllegalArgumentException.class, IdNotFoundExeption.class, IdNotValidExeption.class})
+    @ExceptionHandler(value = {MethodArgumentTypeMismatchException.class, IllegalArgumentException.class, IdNotFoundExeption.class, IdNotValidExeption.class})
     protected ResponseEntity<ResponseObjectError> handleIdNotFound(RuntimeException exception, WebRequest webRequest) {
         log.error(ERROR_400);
         return getResponseError(HttpStatus.BAD_REQUEST, exception.getMessage());
