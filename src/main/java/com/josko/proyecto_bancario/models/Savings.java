@@ -20,7 +20,7 @@ public class Savings extends Account {
     @Autowired
     private ValidatorService validatorService;
     @Column(precision = 5, scale = 4)
-    private BigDecimal interesRate;
+    private BigDecimal interestRate;
 
     @Column(precision = 6, scale = 2)
     private BigDecimal minimumBalance;
@@ -28,26 +28,23 @@ public class Savings extends Account {
     public Savings() {
     }
 
-    /*
-        constructor with restrictions
-     */
     public Savings(AccountHolder firstAccountHolder,
                    Optional<AccountHolder> secondAccountholder,
                    String iban,
                    Money balance,
-                   Optional<BigDecimal> interesRate,
-                   Optional<BigDecimal> minimumBalance) {
+                   BigDecimal interestRate,
+                   BigDecimal minimumBalance) {
         super(firstAccountHolder, secondAccountholder, iban, balance);
-        this.interesRate = validatorService.validateInteresRate(interesRate);
-        this.minimumBalance = validatorService.validateMinimumBalance(minimumBalance);
+        this.interestRate = interestRate;
+        this.minimumBalance = minimumBalance;
     }
 
-    public BigDecimal getInteresRate() {
-        return interesRate;
+    public BigDecimal getInterestRate() {
+        return interestRate;
     }
 
-    public void setInteresRate(BigDecimal interesRate) {
-        this.interesRate = interesRate;
+    public void setInterestRate(BigDecimal interestRate) {
+        this.interestRate = interestRate;
     }
 
     public BigDecimal getMinimumBalance() {
@@ -61,7 +58,7 @@ public class Savings extends Account {
     @Override
     public String toString() {
         return "Savings{ " + super.toString() +
-                "interesRate=" + interesRate +
+                "interesRate=" + interestRate +
                 ", minimumBalance=" + minimumBalance +
                 '}';
     }

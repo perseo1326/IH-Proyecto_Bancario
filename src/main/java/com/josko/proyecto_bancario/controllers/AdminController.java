@@ -105,7 +105,7 @@ public class AdminController {
      */
     @PostMapping("/accountholders/{id}/newsavings")
     @ResponseStatus(HttpStatus.CREATED)
-    public Savings createNewSavingsAccount(@PathVariable("id") Long userId, @Valid @RequestBody SavingsDTO newSavingsDTO) {
+    public Savings createNewSavingsAccount(@PathVariable("id") Long userId, @RequestBody SavingsDTO newSavingsDTO) {
 
         return adminService.createNewSavingsAccount(userId, newSavingsDTO );
     }

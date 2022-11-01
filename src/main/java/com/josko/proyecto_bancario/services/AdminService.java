@@ -21,7 +21,7 @@ public class AdminService {
     private final AccountHolderService accountHolderService;
 
     private final CheckingService checkingService;
-    private final SavingsRepository savingsRepository;  // *
+    private final SavingsService savingsService;
     private final CreditCardRepository creditCardRepository;  // *
     private final ValidatorService validatorService;  // *
 
@@ -74,21 +74,6 @@ public class AdminService {
     }
 
     /*
-        CREATE a new 'Savings' account for a selected AccountHolder.
-     */
-    public Savings createNewSavingsAccount(Long userId, SavingsDTO newSavingsDTO) {
-        log.info("ADMINSERVICE:createNewSavingsAccount: Creating a new 'Savings' for user ID: [" + userId.toString() + "]");
-
-        Optional<AccountHolder> mainAccountHolder = validatorService.getMainAccountHolder(userId);
-
-        Optional<AccountHolder> secondaryOwner = validatorService.getSecondaryAccountHolder(newSavingsDTO.getSecondaryOwner());
-
-        Savings savingsAccount = new Savings(mainAccountHolder.get(), secondaryOwner, newSavingsDTO.getIban(), newSavingsDTO.getBalance(), newSavingsDTO.getInteresRate(), newSavingsDTO.getMinimumBalance() );
-
-        return savingsRepository.save(savingsAccount);
-    }
-
-    /*
         Method for create new Checking accoungs related to a user.
      */
     public Checking createNewCheckingAccount(Long userId, @Valid CheckingDTO checkingDTO) {
@@ -97,17 +82,27 @@ public class AdminService {
     }
 
     /*
+    CREATE a new 'Savings' account for a selected AccountHolder.
+ */
+    public Savings createNewSavingsAccount(Long userId, SavingsDTO newSavingsDTO) {
+
+        return savingsService.createNewSavingsAccount( userId, newSavingsDTO);
+    }
+
+    /*
         Method for create a new 'CreditCard' associated to a user.
     */
+
     public CreditCard createNewCreditCardAccount(Long userId, CreditCardDTO creditCardDTO) {
         log.info("ADMINSERVICE:createNewCreditCardAccount: Method to create a new 'CreditCard' Account.");
 
-        Optional<AccountHolder> mainAccountHolder = validatorService.getMainAccountHolder(userId);
+        Optional<AccountHolder> mainAccountHolder = accountHolderService.getMainAccountHolder(userId);
 
-        Optional<AccountHolder> secondaryOwner = validatorService.getSecondaryAccountHolder(creditCardDTO.getSecondaryOwner());
+        Optional<AccountHolder> secondaryOwner = accountHolderService.getSecondaryAccountHolder(creditCardDTO.getSecondaryOwner());
 
         CreditCard creditCardAccount = new CreditCard(mainAccountHolder.get(), secondaryOwner, creditCardDTO.getIban(), creditCardDTO.getBalance(), creditCardDTO.getCreditLimit(), creditCardDTO.getCreditCardInteresRate());
 
         return creditCardRepository.save(creditCardAccount);
     }
+
 }
