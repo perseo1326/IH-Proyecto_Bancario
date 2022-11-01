@@ -175,14 +175,14 @@ public class ValidatorService {
         Set<Role> roleSet = new HashSet<>();
 
         for ( String role : roleStringSet) {
-            if (RoleEnum.ROLE_USER.contains(role.toUpperCase())) {
-                roleSet.add( roleRepository.findByRoleName(RoleEnum.ROLE_THIRDPARTY.getValue(role.toUpperCase())));
+            if (RoleEnum.ROL_USER.contains(role.toUpperCase())) {
+                roleSet.add( roleRepository.findByRoleName(RoleEnum.ROL_THIRDPARTY.getValue(role.toUpperCase())));
             }
         }
 
         // No Role was specified, we assign the default: THIRDPARTY
         if (roleSet.isEmpty()){
-            roleSet.add( roleRepository.findByRoleName(RoleEnum.ROLE_THIRDPARTY));
+            roleSet.add( roleRepository.findByRoleName(RoleEnum.ROL_THIRDPARTY));
         }
         return roleSet;
     }
