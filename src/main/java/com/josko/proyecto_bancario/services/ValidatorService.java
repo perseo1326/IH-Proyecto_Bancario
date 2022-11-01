@@ -20,8 +20,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ValidatorService {
 
-    // default interes rate = 0.25% = 0.0025
-    private final BigDecimal SAVINGS_INTERES_RATE = new BigDecimal(0.0025);
+
     // CreditCard accounts have a default creditLimit of 100
     private final BigDecimal CREDIT_LIMIT = new BigDecimal(100);
     //  CreditCards have a default interestRate of 0.2
@@ -37,63 +36,6 @@ public class ValidatorService {
         return true;
     }
 
-    /*
-        Method to validate a Long ID into an main or primary AccountHolder.
-     */
-    public Optional<AccountHolder> getMainAccountHolder(Long userId) {
-        log.info("VALIDATOR_SERVICE:getMainAccountHolder: Validating AccountHolder from ID.");
-
-        Optional<AccountHolder> accountHolder = accountHolderRepository.findById(userId);
-        if (accountHolder .isEmpty()) {
-            log.warn("The account Holder user ID is not found.");
-            throw new IdNotFoundExeption(userId.toString());
-        }
-        return accountHolder;
-    }
-
-    /*
-        Method to validate a secondaryAccountHolder from an ID.
-     */
-    public Optional<AccountHolder> getSecondaryAccountHolder(Optional<Long> secondaryAccountHolder) {
-        log.info("VALIDATOR_SERVICE:getSecondaryAccountHolder: Validating a secondary AccountHolder.");
-
-        Optional<AccountHolder> secondaryOwner = Optional.ofNullable(null);
-
-        if (secondaryAccountHolder.isPresent()) {
-            secondaryOwner = accountHolderRepository.findById(secondaryAccountHolder.get());
-            if (secondaryOwner.isEmpty()) {
-                log.warn("The secondary account Holder user ID is not found.");
-                throw new IdNotFoundExeption(secondaryAccountHolder.get().toString());
-            }
-        }
-        return secondaryOwner;
-    }
-
-
-    /*
-        Method for validate an 'InteresRate' value is in a valid range.
-     */
-    public BigDecimal validateInteresRate(Optional<BigDecimal> interesRate) {
-        log.info("VALIDATORSERVICE:validateInteresRate: Validating the interes rate given.");
-
-        BigDecimal validInteresRate;
-
-        if (interesRate.isEmpty()) {
-            validInteresRate = SAVINGS_INTERES_RATE;
-        } else {
-            /*
-                RESTRICTION:
-                    - Savings accounts have a default interest rate of 0.0025 ( 0.25%)
-                    - Savings accounts may be instantiated with an interest rate other than the default, with a maximum interest rate of 0.5 (0.25% < X < 0.5%)
-             */
-            if ((interesRate.get().compareTo(new BigDecimal(0.0025)) < 0) || interesRate.get().compareTo(new BigDecimal(0.005)) > 0) {
-                log.error("VALIDATORSERVICE:validateInteresRate: The interes rate is not in a valid range.");
-                throw new IllegalArgumentException("The interes rate do not meet the request.");
-            }
-            validInteresRate = interesRate.get();
-        }
-        return validInteresRate;
-    }
 
     /*
         RESTRICTIONS to validate:
