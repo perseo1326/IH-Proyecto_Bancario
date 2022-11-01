@@ -2,7 +2,9 @@ package com.josko.proyecto_bancario.services;
 
 import com.josko.proyecto_bancario.DTOs.AccountHolderDTO;
 import com.josko.proyecto_bancario.enums.RoleEnum;
+import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
 import com.josko.proyecto_bancario.exeptions.IdNotValidExeption;
+import com.josko.proyecto_bancario.exeptions.NotValidDataException;
 import com.josko.proyecto_bancario.models.AccountHolder;
 import com.josko.proyecto_bancario.models.Address;
 import com.josko.proyecto_bancario.repositories.AccountHolderRepository;
@@ -67,4 +69,18 @@ public class AccountHolderService {
         users.add(user.get());
         return users;
     }
+
+    public List<AccountHolder> getAccountHolderByName(String name) {
+
+        List<AccountHolder> users = accountHolderRepository.findByNameContainsOrderByName(name);
+        if (users.isEmpty()) {
+            log.warn("ACCOUNTHOLDER_SERVICE:getAccountHolderByName: The given name(" + name + ") was not found.");
+            throw new NotValidDataException("The search with the name '" + name + "' did not give any results.");
+        }
+        return users;
+    }
+
+
+
+
 }

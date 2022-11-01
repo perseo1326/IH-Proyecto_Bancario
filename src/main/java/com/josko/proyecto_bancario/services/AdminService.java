@@ -40,12 +40,7 @@ public class AdminService {
     // GET AccountHolders By name
     public List<AccountHolder> getAccountHolderByName(String name) {
 
-        List<AccountHolder> users = accountHolderRepository.findByNameContainsOrderByName(name);
-        if (users.isEmpty()) {
-            log.warn("ADMINSERVICE:getAccountHolderByName: The given name(" + name + ") was not found.");
-            throw new IdNotFoundExeption(name);
-        }
-        return users;
+        return accountHolderService.getAccountHolderByName(name);
     }
 
     /*
