@@ -9,7 +9,7 @@ import java.util.Optional;
 
 
 @Entity
-@Table(name = "basic_account")
+@Table(name = "basic_accounts")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class BasicAccount {
 
