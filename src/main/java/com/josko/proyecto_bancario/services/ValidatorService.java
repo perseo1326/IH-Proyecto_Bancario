@@ -22,8 +22,6 @@ public class ValidatorService {
 
     // default interes rate = 0.25% = 0.0025
     private final BigDecimal SAVINGS_INTERES_RATE = new BigDecimal(0.0025);
-    // default minimumBalance = 1K
-    private final BigDecimal MINIMUM_BALANCE = new BigDecimal(1000);
     // CreditCard accounts have a default creditLimit of 100
     private final BigDecimal CREDIT_LIMIT = new BigDecimal(100);
     //  CreditCards have a default interestRate of 0.2
@@ -43,7 +41,7 @@ public class ValidatorService {
         Method to validate a Long ID into an main or primary AccountHolder.
      */
     public Optional<AccountHolder> getMainAccountHolder(Long userId) {
-        log.info("VALIDATORSERVICE:getMainAccountHolder: Validating AccountHolder from ID.");
+        log.info("VALIDATOR_SERVICE:getMainAccountHolder: Validating AccountHolder from ID.");
 
         Optional<AccountHolder> accountHolder = accountHolderRepository.findById(userId);
         if (accountHolder .isEmpty()) {
@@ -57,7 +55,7 @@ public class ValidatorService {
         Method to validate a secondaryAccountHolder from an ID.
      */
     public Optional<AccountHolder> getSecondaryAccountHolder(Optional<Long> secondaryAccountHolder) {
-        log.info("ADMINSERVICE:getSecondaryAccountHolder: Validating a secondary AccountHolder.");
+        log.info("VALIDATOR_SERVICE:getSecondaryAccountHolder: Validating a secondary AccountHolder.");
 
         Optional<AccountHolder> secondaryOwner = Optional.ofNullable(null);
 
@@ -95,31 +93,6 @@ public class ValidatorService {
             validInteresRate = interesRate.get();
         }
         return validInteresRate;
-    }
-
-
-    /*
-        Method for validate the 'minimumBalance' against a range.
-     */
-    public BigDecimal validateMinimumBalance(Optional<BigDecimal> minimumBalance) {
-        log.info("VALIDATORSERVICE:validateMinimumBalance: Validating the minimum balance supplied.");
-
-        BigDecimal validMinimumBalance;
-        if (minimumBalance.isEmpty()) {
-            validMinimumBalance = MINIMUM_BALANCE;
-        } else {
-            /*
-                RESTRICTION:
-                    - Savings accounts should have a default minimumBalance of 1000 (X > 1K)
-                    - Savings accounts may be instantiated with a minimum balance of less than 1000 but no lower than 100 ( 100 < X < 1K)
-             */
-            if (minimumBalance.get().compareTo(new BigDecimal(100)) < 0 || minimumBalance.get().compareTo(new BigDecimal(1000)) > 0) {
-                log.error("PERSISTENCE:SAVINGS:Constructor: The minimumBalance is not valid (" + minimumBalance.toString() + ").");
-                throw new IllegalArgumentException("The minimumBalance is not in a valid range.");
-            }
-            validMinimumBalance = minimumBalance.get();
-        }
-        return validMinimumBalance;
     }
 
     /*
