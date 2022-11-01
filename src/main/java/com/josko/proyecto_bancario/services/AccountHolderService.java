@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +100,37 @@ public class AccountHolderService {
         return accountHolderRepository.findByBirthDateBetween(initialDate.get(), finalDate.get());
     }
 
+    /*
+        Method to validate a Long ID into a main or primary AccountHolder.
+    */
+    public Optional<AccountHolder> getMainAccountHolder(Long userId) {
+        log.info("VALIDATOR_SERVICE:getMainAccountHolder: Validating AccountHolder from ID.");
 
+        Optional<AccountHolder> accountHolder = accountHolderRepository.findById(userId);
+        if (accountHolder .isEmpty()) {
+            log.warn("The account Holder user ID is not found.");
+            throw new IdNotFoundExeption(userId.toString());
+        }
+        return accountHolder;
+    }
+
+    /*
+    Method to validate a secondaryAccountHolder from an ID.
+    */
+    public Optional<AccountHolder> getSecondaryAccountHolder(Optional<Long> secondaryAccountHolder) {
+        log.info("VALIDATOR_SERVICE:getSecondaryAccountHolder: Validating a secondary AccountHolder.");
+
+        Optional<AccountHolder> secondaryOwner = Optional.ofNullable(null);
+
+        if (secondaryAccountHolder.isPresent()) {
+            secondaryOwner = accountHolderRepository.findById(secondaryAccountHolder.get());
+            if (secondaryOwner.isEmpty()) {
+                log.warn("The secondary account Holder user ID is not found.");
+                throw new IdNotFoundExeption(secondaryAccountHolder.get().toString());
+            }
+        }
+        return secondaryOwner;
+    }
 
 
 
