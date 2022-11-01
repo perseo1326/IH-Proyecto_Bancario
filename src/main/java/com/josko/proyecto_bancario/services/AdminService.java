@@ -34,15 +34,7 @@ public class AdminService {
      */
     public List<AccountHolder> getAccountHolderById(Long userId) {
 
-        Optional<AccountHolder> user = accountHolderRepository.findById(userId);
-        if (user.isEmpty()) {
-            log.warn("ADMINSERVICE:getAccountHolderById: The given ID(" + userId.toString() + ") was not found.");
-            throw new IdNotValidExeption(userId.toString());
-        }
-
-        List<AccountHolder> users = new ArrayList<>();
-        users.add(user.get());
-        return users;
+        return accountHolderService.getAccountHolderById(userId);
     }
 
     // GET AccountHolders By name

@@ -2,6 +2,7 @@ package com.josko.proyecto_bancario.services;
 
 import com.josko.proyecto_bancario.DTOs.AccountHolderDTO;
 import com.josko.proyecto_bancario.enums.RoleEnum;
+import com.josko.proyecto_bancario.exeptions.IdNotValidExeption;
 import com.josko.proyecto_bancario.models.AccountHolder;
 import com.josko.proyecto_bancario.models.Address;
 import com.josko.proyecto_bancario.repositories.AccountHolderRepository;
@@ -11,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -50,5 +53,18 @@ public class AccountHolderService {
     public List<AccountHolder> findAllAccountHolders() {
 
         return accountHolderRepository.findAll();
+    }
+
+    public List<AccountHolder> getAccountHolderById(Long userId) {
+
+        Optional<AccountHolder> user = accountHolderRepository.findById(userId);
+        if (user.isEmpty()) {
+            log.warn("ACCOUNTHOLDER_SERVICE:getAccountHolderById: The given ID(" + userId.toString() + ") does not register.");
+            throw new IdNotValidExeption(userId.toString());
+        }
+
+        List<AccountHolder> users = new ArrayList<>();
+        users.add(user.get());
+        return users;
     }
 }

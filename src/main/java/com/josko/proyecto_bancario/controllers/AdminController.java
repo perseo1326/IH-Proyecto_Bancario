@@ -59,7 +59,7 @@ public class AdminController {
     public List<AccountHolder> getAccountHoldersById(@PathVariable("id") Optional<Long> accountHolderId) {
 
         if (accountHolderId.isEmpty()) {
-            throw new NotValidDataException("SIN VALORES VALIDOS!");
+            throw new NotValidDataException("No data present for search");
         }
 
         return adminService.getAccountHolderById(accountHolderId.get());
