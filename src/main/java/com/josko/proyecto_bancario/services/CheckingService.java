@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CheckingService {
 
-    private final ValidatorService validatorService;
+    private final AccountHolderService accountHolderService;
     private final CheckingRepository checkingRepository;
 
     private final BigDecimal MINIMUM_BALANCE = new BigDecimal(250);
@@ -25,9 +25,9 @@ public class CheckingService {
     public Checking createNewCheckingAccount(Long userId, CheckingDTO checkingDTO) {
         log.info("CHECKING_ACCOUNT_SERVICE:createNewCheckingAccount: Creating a new 'Checking' for user ID: [" + userId.toString() + "]");
 
-        Optional<AccountHolder> mainAccountHolder = validatorService.getMainAccountHolder(userId);
+        Optional<AccountHolder> mainAccountHolder = accountHolderService.getMainAccountHolder(userId);
 
-        Optional<AccountHolder> secondaryOwner = validatorService.getSecondaryAccountHolder(checkingDTO.getSecondaryOwner());
+        Optional<AccountHolder> secondaryOwner = accountHolderService.getSecondaryAccountHolder(checkingDTO.getSecondaryOwner());
 
         Checking checkingAccount = new Checking(mainAccountHolder.get(), secondaryOwner, checkingDTO.getIban(), checkingDTO.getBalance(), MINIMUM_BALANCE, MONTLY_MAINTENANCE_FEE);
 
