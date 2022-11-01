@@ -124,7 +124,15 @@ public class AdminController {
         return adminService.getAllAccountsFromAccountHolderUser(userId);
     }
 
+    /*
+        Method for search a specific account based on his IBAN
+    */
+    @GetMapping("/accountholders/accounts/{iban}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<BasicAccount>  getAccountFromAccountHolderByIban(@PathVariable("iban") String iban) {
 
+        return adminService.getAccountFromAccountHolderByIban( iban);
+    }
 
 
 

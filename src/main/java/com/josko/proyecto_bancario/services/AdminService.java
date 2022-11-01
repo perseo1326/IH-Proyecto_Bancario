@@ -103,4 +103,12 @@ public class AdminService {
 
         return accountHolderService.getAllAccountsFromAccountHolderUser(userId);
     }
+
+    /*
+        Method for search a specific account based on his IBAN
+     */
+    public Optional<BasicAccount> getAccountFromAccountHolderByIban(String iban) {
+
+        return accountHolderService.getAccountFromAccountHolderByIban(iban);
+    }
 }

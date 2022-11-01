@@ -151,4 +151,18 @@ public class AccountHolderService {
         }
         return basicAccountList;
     }
+
+    /*
+        Method for search a specific account based on his IBAN
+    */
+    public Optional<BasicAccount> getAccountFromAccountHolderByIban(String iban) {
+
+        Optional<BasicAccount> basicAccount = basicAccountRepository.findByIbanIgnoreCase(iban);
+        if (basicAccount.isEmpty()) {
+            throw new SearchWithNoResultsException("The given IBAN is not found.");
+        }
+
+        return basicAccount;
+
+    }
 }
