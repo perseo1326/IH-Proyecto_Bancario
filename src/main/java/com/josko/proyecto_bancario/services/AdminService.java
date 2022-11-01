@@ -22,11 +22,10 @@ import java.util.Optional;
 public class AdminService {
 
     private final AddressRepository addressRepository;
-    private final ThirdPartyReposiyory thirdPartyReposiyory;
+    private final ThirdPartyService thirdPartyService;
     private final AccountHolderRepository accountHolderRepository;
     private final SavingsRepository savingsRepository;
     private final CheckingRepository checkingRepository;
-    private final StudentCheckingRepository studentCheckingRepository;
     private final CreditCardRepository creditCardRepository;
     private final ValidatorService validatorService;
 
@@ -37,7 +36,7 @@ public class AdminService {
 
         Optional<AccountHolder> user = accountHolderRepository.findById(userId);
         if (user.isEmpty()) {
-            log.warn("SERVICE:ADMINSERVICE:getAccountHolderById: The given ID(" + userId.toString() + ") was not found.");
+            log.warn("ADMINSERVICE:getAccountHolderById: The given ID(" + userId.toString() + ") was not found.");
             throw new IdNotValidExeption(userId.toString());
         }
 
@@ -51,7 +50,7 @@ public class AdminService {
 
         List<AccountHolder> users = accountHolderRepository.findByNameContainsOrderByName(name);
         if (users.isEmpty()) {
-            log.warn("SERVICE:ADMINSERVICE:getAccountHolderByName: The given name(" + name + ") was not found.");
+            log.warn("ADMINSERVICE:getAccountHolderByName: The given name(" + name + ") was not found.");
             throw new IdNotFoundExeption(name);
         }
         return users;
@@ -72,7 +71,7 @@ public class AdminService {
 
         // TODO: no se puede usar sentencias ELSE_IF debido a que el metodo DEBE contener un return al final.
         if (initialDate.isEmpty() && finalDate.isEmpty() ) {
-            log.warn("SERVICE:ADMINSERVICE:findByBirthDateValues: No Date values provided for search.");
+            log.warn("ADMINSERVICE:findByBirthDateValues: No Date values provided for search.");
             throw new NotValidDataException("No Date values provided for search.");
         }
 
@@ -92,7 +91,7 @@ public class AdminService {
         CREATE a new AccountHolder entity in the DB.
      */
     public AccountHolder createAccountHolderUser(@Valid AccountHolderDTO newAccountHolderDTO) {
-        log.info("SERVICE:ADMINSERVICE:createAccountHolderUser: Creating a new AccountHolder user.");
+        log.info("ADMINSERVICE:createAccountHolderUser: Creating a new AccountHolder user.");
 
         Address mainAddress = new Address();
         mainAddress.clone(newAccountHolderDTO.getMainAddress());
@@ -116,17 +115,16 @@ public class AdminService {
         CREATE ThirdParty entities in the DB.
      */
     public ThirdParty createThirdPartyUser(ThirdPartyDTO newThirdPartyDTO) {
-        log.info("SERVICE:ADMINSERVICE:createThirdPartyUser: Creating a new ThirdParty user.");
+        log.info("ADMINSERVICE:createThirdPartyUser: Creating a new ThirdParty user.");
 
-        ThirdParty thirdPartyUser = new ThirdParty(newThirdPartyDTO.getName(), newThirdPartyDTO.getHashedKey());
-        return thirdPartyReposiyory.save(thirdPartyUser);
+        return thirdPartyService.createNewThirdPartyUser(newThirdPartyDTO);
     }
 
     /*
         CREATE a new 'Savings' account for a selected AccountHolder.
      */
     public Savings createNewSavingsAccount(Long userId, SavingsDTO newSavingsDTO) {
-        log.info("SERVICE:ADMINSERVICE:createNewSavingsAccount: Creating a new 'Savings' for user ID: [" + userId.toString() + "]");
+        log.info("ADMINSERVICE:createNewSavingsAccount: Creating a new 'Savings' for user ID: [" + userId.toString() + "]");
 
         Optional<AccountHolder> mainAccountHolder = validatorService.getMainAccountHolder(userId);
 
@@ -141,7 +139,7 @@ public class AdminService {
         Method for create new Checking accoungs related to a user.
      */
     public Checking createNewCheckingAccount(Long userId, @Valid CheckingDTO checkingDTO) {
-        log.info("SERVICE:ADMINSERVICE:createNewCheckingAccount: Creating a new 'Checking' for user ID: [" + userId.toString() + "]");
+        log.info("ADMINSERVICE:createNewCheckingAccount: Creating a new 'Checking' for user ID: [" + userId.toString() + "]");
 
         Optional<AccountHolder> mainAccountHolder = validatorService.getMainAccountHolder(userId);
 
