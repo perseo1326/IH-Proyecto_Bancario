@@ -56,22 +56,7 @@ public class AdminService {
      */
     public List<AccountHolder> findByBirthDateValues(Optional<LocalDate> initialDate, Optional<LocalDate> finalDate) {
 
-        // TODO: no se puede usar sentencias ELSE_IF debido a que el metodo DEBE contener un return al final.
-        if (initialDate.isEmpty() && finalDate.isEmpty() ) {
-            log.warn("ADMINSERVICE:findByBirthDateValues: No Date values provided for search.");
-            throw new NotValidDataException("No Date values provided for search.");
-        }
-
-        if (initialDate.isPresent() && finalDate.isEmpty()) {
-            return accountHolderRepository.findByBirthDateLessThanEqualOrderByNameAsc(initialDate.get());
-        }
-
-        if (initialDate.isEmpty() && finalDate.isPresent() )  {
-            return accountHolderRepository.findByBirthDateGreaterThanEqualOrderByNameAsc(finalDate.get());
-        }
-
-        // initialDate.isPresent() && finalDate.isPresent()
-        return accountHolderRepository.findByBirthDateBetween(initialDate.get(), finalDate.get());
+        return accountHolderService.findByBirthDateValues(initialDate, finalDate);
     }
 
     /*

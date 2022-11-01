@@ -81,7 +81,7 @@ public class AdminController {
     }
 
     /*
-        GET: Realizar busquedas por rango de fechas de nacimiento, y tambien hasta y desde una fecha determinada.
+        GET: Realizar busquedas por rango de fechas de nacimiento, fecha hasta y desde una fecha determinada.
      */
     @GetMapping("/accountholders/birthdate")
     @ResponseStatus(HttpStatus.OK)

@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class AccountHolderService {
     private final UserService userService;
     private final AccountHolderRepository accountHolderRepository;
     private final AddressRepository addressRepository;
+
 
     public AccountHolder createNewAccountHolderUser(AccountHolderDTO newAccountHolderDTO) {
         log.info("ACCOUNTHOLDER_SERVICE:createNewAccountHolderUser: Creating a new AccountHolder user.");
@@ -50,7 +52,6 @@ public class AccountHolderService {
         accountHolder = (AccountHolder) userService.createNewUser(accountHolder, RoleEnum.ROL_USER);
         return accountHolderRepository.save(accountHolder);
     }
-
 
     public List<AccountHolder> findAllAccountHolders() {
 
@@ -79,6 +80,28 @@ public class AccountHolderService {
         }
         return users;
     }
+
+    public List<AccountHolder> findByBirthDateValues(Optional<LocalDate> initialDate, Optional<LocalDate> finalDate) {
+
+        // TODO: no se puede usar sentencias ELSE_IF debido a que el metodo DEBE contener un return al final.
+        if (initialDate.isEmpty() && finalDate.isEmpty() ) {
+            log.warn("ACCOUNTHOLDER_SERVICE:findByBirthDateValues: No Date values provided for search.");
+            throw new NotValidDataException("No Date values provided for search.");
+        }
+
+        if (initialDate.isPresent() && finalDate.isEmpty()) {
+            return accountHolderRepository.findByBirthDateLessThanEqualOrderByNameAsc(initialDate.get());
+        }
+
+        if (initialDate.isEmpty() && finalDate.isPresent() )  {
+            return accountHolderRepository.findByBirthDateGreaterThanEqualOrderByNameAsc(finalDate.get());
+        }
+
+        // initialDate.isPresent() && finalDate.isPresent()
+        return accountHolderRepository.findByBirthDateBetween(initialDate.get(), finalDate.get());
+    }
+
+
 
 
 
