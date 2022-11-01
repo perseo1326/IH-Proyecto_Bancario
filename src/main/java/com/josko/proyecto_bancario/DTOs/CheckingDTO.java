@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public class CheckingDTO {
 
-
     private Optional<Long> secondaryOwner;
     @NotBlank(message = "The IBAN cannot be empty.")
     private String iban;
