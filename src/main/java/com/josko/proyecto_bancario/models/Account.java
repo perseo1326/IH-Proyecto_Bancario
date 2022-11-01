@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Optional;
 
 @Entity
-@Table(name = "account")
+@Table(name = "accounts")
 public class Account extends BasicAccount{
 
 
