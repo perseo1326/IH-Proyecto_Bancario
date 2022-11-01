@@ -112,7 +112,7 @@ public class AdminController {
 
     @PostMapping("/accountholders/{id}/newcreditcard")
     @ResponseStatus(HttpStatus.CREATED)
-    public CreditCard createNewCreditCardAccount(@PathVariable("id") Long userId, @Valid @RequestBody CreditCardDTO creditCardDTO) {
+    public CreditCard createNewCreditCardAccount(@PathVariable("id") Long userId, @RequestBody CreditCardDTO creditCardDTO) {
 
         return adminService.createNewCreditCardAccount(userId, creditCardDTO);
     }

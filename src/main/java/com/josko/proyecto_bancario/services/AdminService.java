@@ -2,7 +2,6 @@ package com.josko.proyecto_bancario.services;
 
 import com.josko.proyecto_bancario.DTOs.*;
 import com.josko.proyecto_bancario.models.*;
-import com.josko.proyecto_bancario.repositories.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,8 +21,7 @@ public class AdminService {
 
     private final CheckingService checkingService;
     private final SavingsService savingsService;
-    private final CreditCardRepository creditCardRepository;  // *
-    private final ValidatorService validatorService;  // *
+    private final CreditCardService creditCardService;
 
     /*
         GET AccountHolders By ID
@@ -94,15 +92,8 @@ public class AdminService {
     */
 
     public CreditCard createNewCreditCardAccount(Long userId, CreditCardDTO creditCardDTO) {
-        log.info("ADMINSERVICE:createNewCreditCardAccount: Method to create a new 'CreditCard' Account.");
 
-        Optional<AccountHolder> mainAccountHolder = accountHolderService.getMainAccountHolder(userId);
-
-        Optional<AccountHolder> secondaryOwner = accountHolderService.getSecondaryAccountHolder(creditCardDTO.getSecondaryOwner());
-
-        CreditCard creditCardAccount = new CreditCard(mainAccountHolder.get(), secondaryOwner, creditCardDTO.getIban(), creditCardDTO.getBalance(), creditCardDTO.getCreditLimit(), creditCardDTO.getCreditCardInteresRate());
-
-        return creditCardRepository.save(creditCardAccount);
+        return creditCardService.createNewCreditCardAccount(userId, creditCardDTO);
     }
 
 }

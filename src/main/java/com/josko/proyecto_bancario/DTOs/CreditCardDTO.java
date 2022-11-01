@@ -3,25 +3,28 @@ package com.josko.proyecto_bancario.DTOs;
 
 import com.josko.proyecto_bancario.models.Money;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Optional;
 
 public class CreditCardDTO {
 
     private Optional<Long> secondaryOwner;
-    @NotNull(message = "The IBAN cannot be empty.")
+    @NotBlank(message = "The IBAN cannot be empty.")
     private String iban;
-    private Money balance;
-    private Optional<BigDecimal> creditLimit;
-    private Optional<BigDecimal> creditCardInteresRate;
 
-    public CreditCardDTO(Optional<Long> secondaryOwner, String iban, Money balance, Optional<BigDecimal> creditLimit, Optional<BigDecimal> creditCardInteresRate) {
+    @NotBlank(message = "A valid balance must be indicated.")
+    private Money balance;
+
+    private Optional<BigDecimal> creditLimit;
+    private Optional<BigDecimal> creditCardInterestRate;
+
+    public CreditCardDTO(Optional<Long> secondaryOwner, String iban, Money balance, Optional<BigDecimal> creditLimit, Optional<BigDecimal> creditCardInterestRate) {
         this.secondaryOwner = secondaryOwner;
         this.iban = iban;
         this.balance = balance;
         this.creditLimit = creditLimit;
-        this.creditCardInteresRate = creditCardInteresRate;
+        this.creditCardInterestRate = creditCardInterestRate;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class CreditCardDTO {
                 ", iban='" + iban + '\'' +
                 ", balance=" + balance +
                 ", creditLimit=" + creditLimit +
-                ", creditCardInteresRate=" + creditCardInteresRate +
+                ", creditCardInteresRate=" + creditCardInterestRate +
                 '}';
     }
 
@@ -67,11 +70,11 @@ public class CreditCardDTO {
         this.creditLimit = creditLimit;
     }
 
-    public Optional<BigDecimal> getCreditCardInteresRate() {
-        return creditCardInteresRate;
+    public Optional<BigDecimal> getCreditCardInterestRate() {
+        return creditCardInterestRate;
     }
 
-    public void setCreditCardInteresRate(Optional<BigDecimal> creditCardInteresRate) {
-        this.creditCardInteresRate = creditCardInteresRate;
+    public void setCreditCardInterestRate(Optional<BigDecimal> creditCardInterestRate) {
+        this.creditCardInterestRate = creditCardInterestRate;
     }
 }
