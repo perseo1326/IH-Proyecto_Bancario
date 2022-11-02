@@ -31,8 +31,11 @@ public class AccountHolderService {
     private final AccountHolderRepository accountHolderRepository;
     private final AddressRepository addressRepository;
     private final BasicAccountRepository basicAccountRepository;
+    private final InitDataSample initDataSample;
 
-
+    /*
+        POST: Create a new AccountHolder User
+     */
     public AccountHolder createNewAccountHolderUser(AccountHolderDTO newAccountHolderDTO) {
         log.info("ACCOUNTHOLDER_SERVICE:createNewAccountHolderUser: Creating a new AccountHolder user.");
 
@@ -57,11 +60,17 @@ public class AccountHolderService {
         return accountHolderRepository.save(accountHolder);
     }
 
+    /*
+        - Obtener el listado de todos los AccountHolders
+    */
     public List<AccountHolder> findAllAccountHolders() {
 
         return accountHolderRepository.findAll();
     }
 
+    /*
+        - Obtener un AccountHolder por su ID.
+    */
     public List<AccountHolder> getAccountHolderById(Long userId) {
 
         Optional<AccountHolder> user = accountHolderRepository.findById(userId);
@@ -75,6 +84,9 @@ public class AccountHolderService {
         return users;
     }
 
+    /*
+        - Obtener el listado de AccountHolders por nombre.
+    */
     public List<AccountHolder> getAccountHolderByName(String name) {
 
         List<AccountHolder> users = accountHolderRepository.findByNameContainsOrderByName(name);
@@ -85,6 +97,9 @@ public class AccountHolderService {
         return users;
     }
 
+    /*
+        GET: Realizar busquedas por rango de fechas de nacimiento, fecha hasta y desde una fecha determinada.
+    */
     public List<AccountHolder> findByBirthDateValues(Optional<LocalDate> initialDate, Optional<LocalDate> finalDate) {
 
         // TODO: no se puede usar sentencias ELSE_IF debido a que el metodo DEBE contener un return al final.
@@ -142,6 +157,7 @@ public class AccountHolderService {
      */
     public List<BasicAccount> getAllAccountsFromAccountHolderUser(Long userId) {
         log.info("ACCOUNTHOLDER_SERVICE:getAllAccountsFromAccountHolderUser: Getting all accounts from user ID(" + userId.toString() + ").");
+
 
         Optional<AccountHolder> accountHolder = getMainAccountHolder(userId);
 
