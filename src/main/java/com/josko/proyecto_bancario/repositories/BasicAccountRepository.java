@@ -20,6 +20,11 @@ public interface BasicAccountRepository extends JpaRepository<BasicAccount, Long
     @Query("select b from BasicAccount b where upper(b.iban) = upper(:iban)")
     Optional<BasicAccount> findByIbanIgnoreCase(@Param("iban") String iban);
 
+    @Query("""
+            select b from BasicAccount b
+            where upper(b.iban) = upper(:iban) and b.firstAccountHolder.id = :id or b.secondAccountholder.id = :id1""")
+    Optional<BasicAccount> findByIbanIgnoreCaseAndFirstAccountHolder_IdOrSecondAccountholder_Id(@Param("iban") String iban, @Param("id") Long id, @Param("id1") Long id1);
+
 
 
 

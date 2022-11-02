@@ -62,49 +62,6 @@ public class BasicAccount {
         this.penaltyFee = new Money( PENALTY_FEE );
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getIban() {
-        return iban;
-    }
-
-    public void setIban(String iban) {
-        this.iban = iban;
-    }
-
-    public LocalDateTime getCreationTime() {
-        return creationTime;
-    }
-
-    public void setCreationTime(@NotNull LocalDateTime creationTime) {
-        this.creationTime = creationTime;
-    }
-
-    public Money getPenaltyFee() {
-        return penaltyFee;
-    }
-
-    public void setPenaltyFee(Money penaltyFee) {
-        this.penaltyFee = penaltyFee;
-    }
-
-    public AccountHolder getFirstAccountHolder() {
-        return firstAccountHolder;
-    }
-
-    public void setFirstAccountHolder(AccountHolder firstAccountHolder) {
-        this.firstAccountHolder = firstAccountHolder;
-    }
-
-    public AccountHolder getSecondAccountholder() {
-        return secondAccountholder;
-    }
-
-    public void setSecondAccountholder(AccountHolder secondAccountholder) {
-        this.secondAccountholder = secondAccountholder;
-    }
 
     @Override
     public String toString() {
@@ -130,5 +87,61 @@ public class BasicAccount {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getIban());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
+
+    public LocalDateTime getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public Money getPenaltyFee() {
+        return penaltyFee;
+    }
+
+    public void setPenaltyFee(Money penaltyFee) {
+        this.penaltyFee = penaltyFee;
+    }
+
+    public Money getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Money balance) {
+        this.balance = balance;
+    }
+
+    public AccountHolder getFirstAccountHolder() {
+        return firstAccountHolder;
+    }
+
+    public void setFirstAccountHolder(AccountHolder firstAccountHolder) {
+        this.firstAccountHolder = firstAccountHolder;
+    }
+
+    public AccountHolder getSecondAccountholder() {
+        return secondAccountholder;
+    }
+
+    public void setSecondAccountholder(AccountHolder secondAccountholder) {
+        this.secondAccountholder = secondAccountholder;
     }
 }

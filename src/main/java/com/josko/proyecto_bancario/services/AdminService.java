@@ -107,8 +107,16 @@ public class AdminService {
     /*
         Method for search a specific account based on his IBAN
      */
-    public Optional<BasicAccount> getAccountFromAccountHolderByIban(String iban) {
+    public BasicAccount getAccountFromAccountHolderByIban(String iban) {
 
         return accountHolderService.getAccountFromAccountHolderByIban(iban);
+    }
+
+    /*
+        Method for change the balance of an account, selected by his IBAN and confirmed by his owner
+     */
+    public BasicAccount changeBalanceBasicInAccount(Long userId, ChangeBalance changeBalance) {
+
+        return accountHolderService.changeBalanceBasicInAccount(userId, changeBalance);
     }
 }

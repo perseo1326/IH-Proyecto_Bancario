@@ -1,6 +1,7 @@
 package com.josko.proyecto_bancario.services;
 
 import com.josko.proyecto_bancario.DTOs.AccountHolderDTO;
+import com.josko.proyecto_bancario.DTOs.ChangeBalance;
 import com.josko.proyecto_bancario.enums.RoleEnum;
 import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
 import com.josko.proyecto_bancario.exeptions.IdNotValidExeption;
@@ -155,14 +156,35 @@ public class AccountHolderService {
     /*
         Method for search a specific account based on his IBAN
     */
-    public Optional<BasicAccount> getAccountFromAccountHolderByIban(String iban) {
+    public BasicAccount getAccountFromAccountHolderByIban(String iban) {
 
         Optional<BasicAccount> basicAccount = basicAccountRepository.findByIbanIgnoreCase(iban);
         if (basicAccount.isEmpty()) {
             throw new SearchWithNoResultsException("The given IBAN is not found.");
         }
 
-        return basicAccount;
+        return basicAccount.get();
+    }
 
+    /*
+        Method for change the balance of an account, selected by his IBAN and confirmed by his owner
+     */
+    public BasicAccount changeBalanceBasicInAccount(Long userId, ChangeBalance changeBalance) {
+        log.info("ACCOUNTHOLDER_SERVICE:changeBalanceBasicInAccount: 'BasicAccount' that will be modified in his balance. user ID(" + userId.toString() + "), IBAN(" + changeBalance.getIban() + ").");
+
+        Optional<BasicAccount> account = basicAccountRepository.findByIbanIgnoreCase(changeBalance.getIban());
+        if (account.isEmpty()) {
+            throw new NotValidDataException("The given IBAN is not found.");
+        }
+
+        if(account.get().getFirstAccountHolder().getId().equals(userId) || account.get().getSecondAccountholder().getId().equals(userId)) {
+
+            account.get().setBalance(changeBalance.getBalance());
+        } else {
+                log.warn("The AccountHolder with ID(" + userId.toString() + " is not the owner of the account with IBAN(" + changeBalance.getIban() + ").");
+                throw new NotValidDataException("The AccountHolder with ID(" + userId.toString() + ") is not the owner of the account with IBAN(" + changeBalance.getIban() + ").");
+        }
+
+        return basicAccountRepository.save(account.get());
     }
 }

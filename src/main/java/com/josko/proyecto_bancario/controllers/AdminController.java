@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -129,10 +130,22 @@ public class AdminController {
     */
     @GetMapping("/accountholders/accounts/{iban}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<BasicAccount>  getAccountFromAccountHolderByIban(@PathVariable("iban") String iban) {
+    public BasicAccount  getAccountFromAccountHolderByIban(@PathVariable("iban") String iban) {
 
         return adminService.getAccountFromAccountHolderByIban( iban);
     }
+
+    /*
+        Method for change the balance of an account, selected by his IBAN and confirmed by his owner
+     */
+    @PatchMapping("/accountholders/{id}/accounts")
+    @ResponseStatus(HttpStatus.OK)
+    public BasicAccount changeBalanceBasicInAccount(@PathVariable("id") Long userId, @RequestBody ChangeBalance changeBalance) {
+
+        return adminService.changeBalanceBasicInAccount(userId, changeBalance);
+    }
+
+
 
 
 
