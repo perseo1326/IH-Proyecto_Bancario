@@ -1,7 +1,9 @@
 package com.josko.proyecto_bancario.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -9,9 +11,11 @@ import java.util.Optional;
 @Table(name = "checking")
 public class Checking extends Account {
 
-
+    @NotNull
+    @Column(columnDefinition = "decimal(19, 2) DEFAULT 250")
     private BigDecimal minimumBalance;
 
+    @Column(columnDefinition = "decimal(19, 2) not null DEFAULT 12")
     private BigDecimal monthlyMaintenanceFee;
 
     public Checking() {
