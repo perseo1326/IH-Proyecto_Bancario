@@ -151,7 +151,7 @@ public class AdminService {
      */
     public List<BasicAccount>  getAllAccountsFromAccountHolderUser(Long userId) {
 
-        return basicAccountService.getAllAccountsFromAccountHolderUser(userId);
+        return basicAccountService.getAllAccountsFromAccountHolderUser(accountHolderService.getAccountHolder(userId));
     }
 
     /*
