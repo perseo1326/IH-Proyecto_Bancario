@@ -70,7 +70,9 @@ public class CreditCardService {
         return validCreditCardInterestRate;
     }
 
-
+    /*
+        Method to create a new Credit Card account
+     */
     public CreditCard createNewCreditCardAccount(Long userId, CreditCardDTO creditCardDTO) {
         log.info("CREDITCARD_SERVICE:createNewCreditCardAccount: Method to create a new 'CreditCard' Account.");
 

@@ -71,6 +71,9 @@ public class SavingsService {
         return validMinimumBalance;
     }
 
+    /*
+        POST: creacion de una cuenta de tipo 'Savings' para el usuario seleccionando
+     */
     public Savings createNewSavingsAccount(Long userId, SavingsDTO savingsDTO) {
         log.info("SAVINGS_SERVICE:createNewSavingsAccount: Creating a new 'Savings' for user ID: [" + userId.toString() + "]");
 

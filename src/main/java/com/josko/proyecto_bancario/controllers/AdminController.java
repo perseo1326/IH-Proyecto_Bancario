@@ -92,8 +92,8 @@ public class AdminController {
     }
 
     /*
-    POST: Creacion de una nueva cuenta del tipo 'Checking' para el usuario seleccionado
- */
+        POST: Creacion de una nueva cuenta del tipo 'Checking' para el usuario seleccionado
+    */
     @PostMapping("/accountholders/{id}/newchecking")
     @ResponseStatus(HttpStatus.CREATED)
     public Checking createNewCheckingAccount(@PathVariable("id") Long userId, @RequestBody CheckingDTO checkingDTO) {
@@ -111,6 +111,9 @@ public class AdminController {
         return adminService.createNewSavingsAccount(userId, newSavingsDTO );
     }
 
+    /*
+        Method to create a new Credit Card account
+     */
     @PostMapping("/accountholders/{id}/newcreditcard")
     @ResponseStatus(HttpStatus.CREATED)
     public CreditCard createNewCreditCardAccount(@PathVariable("id") Long userId, @RequestBody CreditCardDTO creditCardDTO) {
@@ -118,6 +121,9 @@ public class AdminController {
         return adminService.createNewCreditCardAccount(userId, creditCardDTO);
     }
 
+    /*
+        Method to show the accounts that belong to an AccountHolder
+    */
     @GetMapping("/accountholders/{id}/accounts")
     @ResponseStatus(HttpStatus.OK)
     public List<BasicAccount>  getAllAccountsFromAccountHolderUser(@PathVariable("id") Long userId) {

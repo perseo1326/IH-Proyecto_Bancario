@@ -22,6 +22,10 @@ public class CheckingService {
     private final BigDecimal MINIMUM_BALANCE = new BigDecimal(250);
     private final BigDecimal MONTLY_MAINTENANCE_FEE = new BigDecimal(12);
 
+
+    /*
+        POST: Creacion de una nueva cuenta del tipo 'Checking' para el usuario seleccionado
+    */
     public Checking createNewCheckingAccount(Long userId, CheckingDTO checkingDTO) {
         log.info("CHECKING_ACCOUNT_SERVICE:createNewCheckingAccount: Creating a new 'Checking' for user ID: [" + userId.toString() + "]");
 
