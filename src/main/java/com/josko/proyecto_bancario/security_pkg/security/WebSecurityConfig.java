@@ -68,7 +68,7 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/admins/**").hasAuthority(RoleEnum.ROL_ADMIN.toString())
-//                .antMatchers("/api/v1/accountholder/**").hasRole(RoleEnum.ROL_USER.toString())
+                .antMatchers("/api/v1/accountholder/**").hasAuthority(RoleEnum.ROL_USER.toString())
 //                .antMatchers("/api/v1/signup/**").hasRole(RoleEnum.ROL_ADMIN.toString())
                 .antMatchers("/api/v1/signin/**").permitAll()
                 .antMatchers("/api/v1/test/**").permitAll()
@@ -77,7 +77,6 @@ public class WebSecurityConfig {
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 }
