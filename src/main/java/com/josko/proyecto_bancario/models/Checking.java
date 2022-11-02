@@ -11,7 +11,7 @@ import java.util.Optional;
 @Table(name = "checking")
 public class Checking extends Account {
 
-    @NotNull
+//    @NotNull
     @Column(columnDefinition = "decimal(19, 2) DEFAULT 250")
     private BigDecimal minimumBalance;
 
