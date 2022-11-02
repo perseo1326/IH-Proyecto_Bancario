@@ -76,11 +76,11 @@ public class CreditCardService {
     public CreditCard createNewCreditCardAccount(Long userId, CreditCardDTO creditCardDTO) {
         log.info("CREDITCARD_SERVICE:createNewCreditCardAccount: Method to create a new 'CreditCard' Account.");
 
-        Optional<AccountHolder> mainAccountHolder = accountHolderService.getMainAccountHolder(userId);
+        AccountHolder mainAccountHolder = accountHolderService.getAccountHolder(userId);
 
         Optional<AccountHolder> secondaryOwner = accountHolderService.getSecondaryAccountHolder(creditCardDTO.getSecondaryOwner());
 
-        CreditCard creditCardAccount = new CreditCard(mainAccountHolder.get(), secondaryOwner, creditCardDTO.getIban(), creditCardDTO.getBalance(),
+        CreditCard creditCardAccount = new CreditCard(mainAccountHolder, secondaryOwner, creditCardDTO.getIban(), creditCardDTO.getBalance(),
                 validateCreditLimit(creditCardDTO.getCreditLimit()), validateCreditCartInterestRate(creditCardDTO.getCreditCardInterestRate()) );
 
         return creditCardRepository.save(creditCardAccount);

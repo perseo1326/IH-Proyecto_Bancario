@@ -41,7 +41,6 @@ public class UserService {
 
         newUser.addRole(roleRepository.findByRoleName(role));
 
-        //        return userRepository.save(newUser);
         return newUser;
     }
 

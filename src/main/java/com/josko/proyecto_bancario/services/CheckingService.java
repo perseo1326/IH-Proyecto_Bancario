@@ -29,11 +29,11 @@ public class CheckingService {
     public Checking createNewCheckingAccount(Long userId, CheckingDTO checkingDTO) {
         log.info("CHECKING_ACCOUNT_SERVICE:createNewCheckingAccount: Creating a new 'Checking' for user ID: [" + userId.toString() + "]");
 
-        Optional<AccountHolder> mainAccountHolder = accountHolderService.getMainAccountHolder(userId);
+        AccountHolder mainAccountHolder = accountHolderService.getAccountHolder(userId);
 
         Optional<AccountHolder> secondaryOwner = accountHolderService.getSecondaryAccountHolder(checkingDTO.getSecondaryOwner());
 
-        Checking checkingAccount = new Checking(mainAccountHolder.get(), secondaryOwner, checkingDTO.getIban(), checkingDTO.getBalance(), MINIMUM_BALANCE, MONTLY_MAINTENANCE_FEE);
+        Checking checkingAccount = new Checking(mainAccountHolder, secondaryOwner, checkingDTO.getIban(), checkingDTO.getBalance(), MINIMUM_BALANCE, MONTLY_MAINTENANCE_FEE);
 
         return checkingRepository.save(checkingAccount);
     }

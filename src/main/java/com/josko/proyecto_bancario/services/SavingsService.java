@@ -77,11 +77,11 @@ public class SavingsService {
     public Savings createNewSavingsAccount(Long userId, SavingsDTO savingsDTO) {
         log.info("SAVINGS_SERVICE:createNewSavingsAccount: Creating a new 'Savings' for user ID: [" + userId.toString() + "]");
 
-        Optional<AccountHolder> mainAccountHolder = accountHolderService.getMainAccountHolder(userId);
+        AccountHolder mainAccountHolder = accountHolderService.getAccountHolder(userId);
 
         Optional<AccountHolder> secondaryOwner = accountHolderService.getSecondaryAccountHolder(savingsDTO.getSecondaryOwner());
 
-        Savings savingsAccount = new Savings(mainAccountHolder.get(), secondaryOwner, savingsDTO.getIban(), savingsDTO.getBalance(), validateInterestRate(savingsDTO.getInteresRate()), validateMinimumBalance(savingsDTO.getMinimumBalance()));
+        Savings savingsAccount = new Savings(mainAccountHolder, secondaryOwner, savingsDTO.getIban(), savingsDTO.getBalance(), validateInterestRate(savingsDTO.getInteresRate()), validateMinimumBalance(savingsDTO.getMinimumBalance()));
 
         return savingsRepository.save(savingsAccount);
     }
