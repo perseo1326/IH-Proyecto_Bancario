@@ -5,6 +5,8 @@ import com.josko.proyecto_bancario.models.Role;
 import com.josko.proyecto_bancario.repositories.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -15,10 +17,17 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ValidatorService {
 
-
-
     private final RoleRepository roleRepository;
 
+    /*
+        Get the 'username' of the JWT for verification and identified the current user login to the system.
+     */
+    public String getUserAuthenticated () {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String username = userDetails.getUsername();
+        return username;
+    }
 
     public boolean isSecretKeyValid(String secretKey) {
 
