@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AccountHolderRepository extends JpaRepository<AccountHolder, Long> {
@@ -22,5 +23,6 @@ public interface AccountHolderRepository extends JpaRepository<AccountHolder, Lo
     @Query("select a from AccountHolder a where a.birthDate >= :birthDate order by a.name")
     List<AccountHolder> findByBirthDateGreaterThanEqualOrderByNameAsc(@Param("birthDate") LocalDate birthDate);
 
+    Optional<AccountHolder> findByUsernameIgnoreCase(String username);
 
 }

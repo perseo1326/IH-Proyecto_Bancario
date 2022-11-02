@@ -2,11 +2,13 @@ package com.josko.proyecto_bancario.services;
 
 import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
 import com.josko.proyecto_bancario.models.AccountHolder;
+import com.josko.proyecto_bancario.models.BasicAccount;
 import com.josko.proyecto_bancario.repositories.AccountHolderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -14,7 +16,24 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AccountHolderService {
 
+    private final ValidatorService validatorService;
     private final AccountHolderRepository accountHolderRepository;
+    private final BasicAccountService basicAccountService;
+
+    /*
+        Method to find a user by his username and validate it.
+     */
+    public AccountHolder getSessionUser() {
+
+        String username = validatorService.getUserAuthenticated();
+        Optional<AccountHolder> user = accountHolderRepository.findByUsernameIgnoreCase(username);
+
+        if (user.isEmpty()) {
+            log.warn("The username(" + username + ") was not found.");
+        }
+
+        return user.get();
+    }
 
     /*
         Method to validate a Long ID into a main or primary AccountHolder.
@@ -47,5 +66,13 @@ public class AccountHolderService {
         }
         return secondaryOwner;
     }
+
+    public List<BasicAccount> accountHolderWelcome() {
+
+        AccountHolder user = getSessionUser();
+
+        return basicAccountService.getAllAccountsFromAccountHolderUser(user);
+    }
+
 
 }

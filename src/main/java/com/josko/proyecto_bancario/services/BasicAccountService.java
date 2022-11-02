@@ -16,7 +16,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BasicAccountService {
 
-    private final AccountHolderService accountHolderService;
     private final BasicAccountRepository basicAccountRepository;
 
 
@@ -36,15 +35,13 @@ public class BasicAccountService {
     /*
         Method to show the accounts that belong to an AccountHolder
      */
-    public List<BasicAccount> getAllAccountsFromAccountHolderUser(Long userId) {
-        log.info("BASICACCOUNT_SERVICE:getAllAccountsFromAccountHolderUser: Getting all accounts from user ID(" + userId.toString() + ").");
-
-        AccountHolder accountHolder = accountHolderService.getAccountHolder(userId);
+    public List<BasicAccount> getAllAccountsFromAccountHolderUser(AccountHolder accountHolder) {
+        log.info("BASICACCOUNT_SERVICE:getAllAccountsFromAccountHolderUser: Getting all accounts from user ID(" + accountHolder.getId().toString() + ").");
 
         List<BasicAccount> basicAccountList = basicAccountRepository.findByFirstOrSecondAccountHolderById_OrderedByName(accountHolder.getId(), accountHolder.getId());
 
         if (basicAccountList.isEmpty()) {
-            throw new SearchWithNoResultsException("The user ID(" + userId + ") does not have any account.");
+            throw new SearchWithNoResultsException("The user ID(" + accountHolder.getId().toString() + ") does not have any account.");
         }
         return basicAccountList;
     }
