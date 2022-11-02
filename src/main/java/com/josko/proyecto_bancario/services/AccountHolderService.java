@@ -67,12 +67,29 @@ public class AccountHolderService {
         return secondaryOwner;
     }
 
+    /*
+        Welcome to the AccountHolder user showing all his owned accounts
+     */
     public List<BasicAccount> accountHolderWelcome() {
 
         AccountHolder user = getSessionUser();
 
         return basicAccountService.getAllAccountsFromAccountHolderUser(user);
     }
+
+    /*
+        Show a specific account by his IBAN and owned by the current logged user
+     */
+    public BasicAccount getAccountByUserAndIban(String iban) {
+
+        AccountHolder user = getSessionUser();
+
+        return basicAccountService.getAccountFromAccountHolderAndIban(user, iban);
+
+    }
+
+
+
 
 
 }

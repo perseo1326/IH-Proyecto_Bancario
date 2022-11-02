@@ -1,5 +1,6 @@
 package com.josko.proyecto_bancario.services;
 
+import com.josko.proyecto_bancario.exeptions.NotValidDataException;
 import com.josko.proyecto_bancario.exeptions.SearchWithNoResultsException;
 import com.josko.proyecto_bancario.models.AccountHolder;
 import com.josko.proyecto_bancario.models.BasicAccount;
@@ -53,6 +54,29 @@ public class BasicAccountService {
 
         return basicAccountRepository.save(basicAccount);
     }
+
+    /*
+        Show a specific account by his IBAN and owned by the current logged user
+     */
+    public BasicAccount getAccountFromAccountHolderAndIban(AccountHolder user, String iban) {
+
+        Optional<BasicAccount> account = basicAccountRepository.findByIbanIgnoreCase(iban);
+
+        if (account.isEmpty()){
+            log.warn("BASICACCOUNT_SERVICE:getAccountFromAccountHolderAndIban: No accounts were found with the given IBAN(" + iban + ").");
+            throw new NotValidDataException("The user " + user.getName() + " do not have any account with an IBAN: " + iban + ".");
+        }
+
+        if(!account.get().getFirstAccountHolder().getId().equals(user.getId()) ){
+            if( !account.get().getSecondAccountholder().getId().equals(user.getId()) ) {
+                log.warn("BASICACCOUNT_SERVICE:getAccountFromAccountHolderAndIban: The user " + user.getName() + " do not have any account with an IBAN: " + iban + ".");
+                throw new NotValidDataException("The user " + user.getName() + " do not have any account with an IBAN: " + iban + ".");
+            }
+        }
+
+        return account.get();
+    }
+
 
 
 
