@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -138,7 +137,7 @@ public class AdminController {
     @ResponseStatus(HttpStatus.OK)
     public BasicAccount  getAccountFromAccountHolderByIban(@PathVariable("iban") String iban) {
 
-        return adminService.getAccountFromAccountHolderByIban( iban);
+        return adminService.getAccountFromIban(iban);
     }
 
     /*
