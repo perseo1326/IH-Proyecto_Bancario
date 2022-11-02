@@ -1,13 +1,10 @@
 package com.josko.proyecto_bancario.models;
 
-import com.josko.proyecto_bancario.services.ValidatorService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -16,9 +13,6 @@ import java.util.Optional;
 @Table(name = "savings")
 public class Savings extends Account {
 
-    @Transient
-    @Autowired
-    private ValidatorService validatorService;
     @Column(precision = 5, scale = 4)
     private BigDecimal interestRate;
 
