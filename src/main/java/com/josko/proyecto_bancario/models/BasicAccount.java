@@ -22,6 +22,7 @@ public class BasicAccount {
     private Long id;
 
     @NotNull(message = "IBAN cannot be null.")
+    @Column(unique = true)
     private String iban;
 
     @NotNull
