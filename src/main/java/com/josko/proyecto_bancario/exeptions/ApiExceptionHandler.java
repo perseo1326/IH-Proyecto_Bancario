@@ -1,21 +1,18 @@
 package com.josko.proyecto_bancario.exeptions;
 
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.josko.proyecto_bancario.DTOs.ResponseObjectError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.lang.reflect.InvocationTargetException;
+import javax.persistence.NonUniqueResultException;
 
 @Slf4j
 @ControllerAdvice
@@ -46,7 +43,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 //    JsonParseException
-    @ExceptionHandler(value = {NullPointerException.class})
+    @ExceptionHandler(value = {NullPointerException.class, NonUniqueResultException.class})
     protected ResponseEntity<ResponseObjectError> handleNullPointer(RuntimeException exception, WebRequest webRequest) {
         log.error(ERROR_500);
         return getResponseError(HttpStatus.INTERNAL_SERVER_ERROR,  exception.getMessage());
