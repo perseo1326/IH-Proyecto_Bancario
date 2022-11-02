@@ -16,6 +16,9 @@ public class ThirdPartyService {
     private final ThirdPartyReposiyory thirdPartyReposiyory;
     private final UserService userService;
 
+    /*
+        POST: Create a new ThirdParty user.
+     */
     public ThirdParty createNewThirdPartyUser(ThirdPartyDTO newThirdPartyDTO) {
         log.info("THIRDPARTYSERVICE:createNewThirdPartyUser: Creating a new ThirdParty user.");
 
