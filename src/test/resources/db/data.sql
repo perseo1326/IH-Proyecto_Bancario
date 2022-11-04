@@ -11,8 +11,8 @@ DELETE FROM users_roles WHERE TRUE;
 DELETE FROM users WHERE TRUE;
 
 INSERT INTO roles (role_name) VALUES ('ROL_ADMIN'),
-                                ('ROL_USER'),
-                                ('ROL_THIRDPARTY');
+                                     ('ROL_USER'),
+                                     ('ROL_THIRDPARTY');
 
 -- Insercion de direcciones
 INSERT INTO addresses (country, city, street, house_number, home_unit, COMMENT)   VALUES ('España', 'Barcelona', 'Numancia', '23', '4-2', '' );
@@ -128,6 +128,8 @@ INSERT INTO users_roles (user_id, role_id) VALUES( (SELECT user_id FROM users WH
 
 
 -- creacion de cuentas en la tabla 'basic_accounts'
-
+/*
+INSERT INTO basic_accounts (first_account_holder_user_id, second_accountholder_user_id, iban, currency, amount, creation_time, currency_penalty_fee, amount_penalty_fee) VALUES ( (SELECT user_id FROM users WHERE username LIKE 'alberto'), (SELECT user_id FROM users  WHERE username LIKE 'ivan') , 'CH020', 'EUR', 487, '2022-11-01 20:07:29', 'EUR', 40 );
+*/
 
 
