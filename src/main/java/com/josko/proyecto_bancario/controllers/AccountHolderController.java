@@ -1,6 +1,7 @@
 package com.josko.proyecto_bancario.controllers;
 
 
+import com.josko.proyecto_bancario.DTOs.TransferAccountHolder;
 import com.josko.proyecto_bancario.models.BasicAccount;
 import com.josko.proyecto_bancario.services.AccountHolderService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,9 @@ public class AccountHolderController {
      */
     @RequestMapping("/welcome")
     @ResponseStatus(HttpStatus.OK)
-    public List<BasicAccount> accountHolderWelcome() {
+    public List<BasicAccount> accountHolderWelcome(@RequestHeader (value = "hashed-key") String hashedKey) {
+
+        System.out.println("\nValor de 'hashed-key': " + hashedKey);
 
         return accountHolderService.accountHolderWelcome();
     }
@@ -35,8 +38,16 @@ public class AccountHolderController {
     @ResponseStatus(HttpStatus.OK)
     public BasicAccount getAccountByIban(@PathVariable("iban") String iban) {
 
-        return accountHolderService.getAccountByUserAndIban(iban);
+        return accountHolderService.getAccountByUserAndIban(iban.toLowerCase());
     }
 
+    /*
+        Method for make transference between two accounts.
+     */
+    @PostMapping("/{iban}/transfer")
+    @ResponseStatus(HttpStatus.OK)
+    public String setTransferToAccount(@PathVariable String iban, @RequestBody TransferAccountHolder transferAccountHolder) {
 
+        return accountHolderService.validateAccountsForTranfer(iban.toLowerCase(), transferAccountHolder);
+    }
 }

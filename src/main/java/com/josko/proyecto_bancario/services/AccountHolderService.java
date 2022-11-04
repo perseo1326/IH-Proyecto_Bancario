@@ -1,6 +1,8 @@
 package com.josko.proyecto_bancario.services;
 
+import com.josko.proyecto_bancario.DTOs.TransferAccountHolder;
 import com.josko.proyecto_bancario.exeptions.IdNotFoundExeption;
+import com.josko.proyecto_bancario.exeptions.NotValidDataException;
 import com.josko.proyecto_bancario.models.AccountHolder;
 import com.josko.proyecto_bancario.models.BasicAccount;
 import com.josko.proyecto_bancario.repositories.AccountHolderRepository;
@@ -84,10 +86,44 @@ public class AccountHolderService {
 
         AccountHolder user = getSessionUser();
 
-        return basicAccountService.getAccountFromAccountHolderAndIban(user, iban);
+        // TODO: eliminar este metodo??
+        return getAccountByUserAndIban(user.getName().toLowerCase(), iban);
 
     }
 
+    /*
+        Method that find an Account given his IBAN and a primary or secondary owner 'name'
+     */
+    private BasicAccount getAccountByUserAndIban(String iban, String name) {
+
+        BasicAccount account = basicAccountService.getAccountFromIban(iban);
+
+        // Validate that the 'name' is primary or secondary owner of the account
+        if(!account.getFirstAccountHolder().getName().toLowerCase().contains(name)) {
+            if (!account.getSecondAccountholder().getName().toLowerCase().contains(name)) {
+                log.warn("ACCOUNTHOLDER_SERVICE:getDestinationAccountByUserAndIban: The user (" + name + ") not owned the destination account with IBAN(" + iban + ").");
+                throw new NotValidDataException("The user (" + name + ") not owned the destination account with IBAN(" + iban + ").");
+            }
+        }
+
+        return account;
+    }
+
+    /*
+        Method for make transference between two accounts.
+     */
+    //    public BasicAccount setTransferToAccount(String iban, TransferAccountHolder transferAccountHolder) {
+    public String validateAccountsForTranfer( String iban, TransferAccountHolder transferAccountHolder) {
+        log.info("ACCOUNTHOLDER_SERVICE:setTransferToAccount: Starting a transfer process.");
+
+        AccountHolder user = getSessionUser();
+
+        BasicAccount baseAccount = getAccountByUserAndIban(iban, user.getName().toLowerCase());
+
+        BasicAccount finalAccount = getAccountByUserAndIban(transferAccountHolder.getIbanDestination().toLowerCase(), transferAccountHolder.getAccountName().toLowerCase());
+
+        return basicAccountService.validateAccountsBeforeTransfer(baseAccount, finalAccount, transferAccountHolder.getBalance());
+    }
 
 
 
