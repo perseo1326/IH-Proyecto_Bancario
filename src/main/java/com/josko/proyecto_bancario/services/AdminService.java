@@ -123,7 +123,7 @@ public class AdminService {
     }
 
     /*
-        Method for create new Checking accoungs related to a user.
+        Method for create new Checking accounts related to a user.
      */
     public Checking createNewCheckingAccount(Long userId, @Valid CheckingDTO checkingDTO) {
 
@@ -170,13 +170,13 @@ public class AdminService {
 
         BasicAccount account = basicAccountService.getAccountFromIban(changeBalance.getIban());
 
-        if(account.getFirstAccountHolder().getId().equals(userId) || account.getSecondAccountholder().getId().equals(userId)) {
-
-            account.setBalance(changeBalance.getBalance());
-        } else {
-            log.warn("The AccountHolder with ID(" + userId.toString() + " is not the owner of the account with IBAN(" + changeBalance.getIban() + ").");
-            throw new NotValidDataException("The AccountHolder with ID(" + userId.toString() + ") is not the owner of the account with IBAN(" + changeBalance.getIban() + ").");
+        if(!account.getFirstAccountHolder().getId().equals(userId)) {
+            if (account.getSecondAccountholder() == null || !account.getSecondAccountholder().getId().equals(userId)) {
+                log.warn("BASICACCOUNT_SERVICE:changeBalanceBasicInAccount: The AccountHolder with ID(" + userId.toString() + " is not the owner of the account with IBAN(" + changeBalance.getIban() + ").");
+                throw new NotValidDataException("The AccountHolder with ID(" + userId.toString() + ") is not the owner of the account with IBAN(" + changeBalance.getIban() + ").");
+            }
         }
+        account.setBalance(changeBalance.getBalance());
 
         return basicAccountService.save(account);
     }
