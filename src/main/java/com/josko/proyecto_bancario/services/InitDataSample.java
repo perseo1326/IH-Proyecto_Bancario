@@ -36,14 +36,14 @@ public class InitDataSample implements ApplicationRunner {
     public void initDataSample() {
         log.info("CONFIGURATION:INIT_DATA_SAMPLE:run: Inicialización de valores en la base de datos.");
 
-        Checking ch1 = new Checking(getUser("alberto"), Optional.ofNullable(getUser("ivan")), "CH020", new Money(new BigDecimal(335)), MINIMUM_BALANCE, MONTLY_MAINTENANCE_FEE );
+        Checking ch1 = new Checking(getUser("alberto"), Optional.ofNullable(getUser("ivan")), "CH020", new Money(new BigDecimal(500)), MINIMUM_BALANCE, MONTLY_MAINTENANCE_FEE );
         Checking ch2 = new Checking(getUser("ernesto"), Optional.ofNullable(getUser(null)), "CH021", new Money(new BigDecimal(123)), MINIMUM_BALANCE, MONTLY_MAINTENANCE_FEE);
         Checking ch3 = new Checking(getUser("ernesto"), Optional.ofNullable(getUser(null)), "CH022", new Money(new BigDecimal(453.23)), MINIMUM_BALANCE, MONTLY_MAINTENANCE_FEE);
         Checking ch4 = new Checking(getUser("kevin"), Optional.ofNullable(getUser(null)), "CH023", new Money(new BigDecimal(814.20)), MINIMUM_BALANCE, MONTLY_MAINTENANCE_FEE);
 
         checkingRepository.saveAll(Arrays.asList(ch1, ch2, ch3, ch4));
 
-        Savings s1 = new Savings(getUser("alberto"), Optional.ofNullable(getUser("daniel")), "SA040", new Money(new BigDecimal(159.98)), SAVINGS_INTEREST_RATE, MINIMUM_BALANCE_SAVINGS );
+        Savings s1 = new Savings(getUser("alberto"), Optional.ofNullable(getUser("daniel")), "SA040", new Money(new BigDecimal(500)), SAVINGS_INTEREST_RATE, MINIMUM_BALANCE_SAVINGS );
         Savings s2 = new Savings(getUser("ernesto"), Optional.ofNullable(getUser(null)), "SA041", new Money(new BigDecimal(753)), SAVINGS_INTEREST_RATE, MINIMUM_BALANCE_SAVINGS );
         Savings s3 = new Savings(getUser("ivan"), Optional.ofNullable(getUser(null)), "SA042", new Money(new BigDecimal(546.25)), SAVINGS_INTEREST_RATE, MINIMUM_BALANCE_SAVINGS );
         Savings s4 = new Savings(getUser("kevin"), Optional.ofNullable(getUser(null)), "SA043", new Money(new BigDecimal(74)), SAVINGS_INTEREST_RATE, MINIMUM_BALANCE_SAVINGS );
