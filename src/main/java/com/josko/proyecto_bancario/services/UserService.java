@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Slf4j
 @Service
@@ -45,6 +47,17 @@ public class UserService {
     }
 
 
+    public User getUserByUsername(String username) {
+
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (user.isEmpty()) {
+            log.warn("USER_SERVICE:getUserByUsername: The user with username(" + username + ") is not registered in our database.");
+            throw new NotValidDataException("The user with username(\" + username + \") is not registered in our database.");
+        }
+
+        return user.get();
+    }
 
 
 }
