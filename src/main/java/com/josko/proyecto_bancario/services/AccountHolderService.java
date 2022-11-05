@@ -87,7 +87,7 @@ public class AccountHolderService {
         AccountHolder user = getSessionUser();
 
         // TODO: eliminar este metodo??
-        return getAccountByUserAndIban(user.getName().toLowerCase(), iban);
+        return getAccountByUserAndIban(iban, user.getName().toLowerCase());
 
     }
 
