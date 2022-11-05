@@ -55,6 +55,7 @@ public class BasicAccountService {
     /*
         Method for change the balance of an account, selected by his IBAN and confirmed by his owner
      */
+    @Transactional
     public BasicAccount save(BasicAccount basicAccount) {
 
         return basicAccountRepository.save(basicAccount);
@@ -94,6 +95,11 @@ public class BasicAccountService {
     public String validateAccountsBeforeTransfer(BasicAccount baseAccount, BasicAccount finalAccount, Money amount) {
         log.info("BASICACCOUNT_SERVICE:validateAccountsBeforeTransfer: Process transfer from IBAN(" + baseAccount.getIban() + ") to IBAN(" + finalAccount.getIban() + ").");
 
+        // validate that the 'amount' value is positive
+        if (amount.getAmount().compareTo(new BigDecimal(0)) <= 0 ) {
+            log.warn("BASICACCOUNT_SERVICE:validateAccountsBeforeTransfer: The amount is not a valid value.");
+            throw new NotValidDataException("The amount is not a valid value");
+        }
         // validate the two amounts are in the same currency.
         if(!validateSameCurrency(baseAccount.getBalance(), finalAccount.getBalance())) {
             log.warn("BASICACCOUNT_SERVICE:validateAccountsBeforeTransfer: The currencies are NOT the same.");
