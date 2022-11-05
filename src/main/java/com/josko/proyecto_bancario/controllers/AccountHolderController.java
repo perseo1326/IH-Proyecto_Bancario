@@ -24,9 +24,10 @@ public class AccountHolderController {
      */
     @RequestMapping("/welcome")
     @ResponseStatus(HttpStatus.OK)
-    public List<BasicAccount> accountHolderWelcome(@RequestHeader (value = "hashed-key") String hashedKey) {
+//    public List<BasicAccount> accountHolderWelcome(@RequestHeader (value = "hashed-key") String hashedKey) {
+    public List<BasicAccount> accountHolderWelcome() {
 
-        System.out.println("\nValor de 'hashed-key': " + hashedKey);
+//        System.out.println("\nValor de 'hashed-key': " + hashedKey);
 
         return accountHolderService.accountHolderWelcome();
     }
