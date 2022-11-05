@@ -35,8 +35,6 @@ class CheckingTest {
     @DisplayName("Prueba no 1")
     public void prueba1() throws Exception {
 
-//        initData.initDataSample();
-
         List<Checking> lista = checkingRepository.findAll();
 
         System.out.println("\nListado de las cuentas insertadas con 'InitDataSample'\n");
