@@ -28,7 +28,7 @@ public class AdminController {
     @ResponseStatus(HttpStatus.OK)
     public String adminWelcome() {
 
-        return "Hola, Bienvenido a la interfaz bancaria.";
+        return adminService.adminWelcome();
     }
 
     /*
