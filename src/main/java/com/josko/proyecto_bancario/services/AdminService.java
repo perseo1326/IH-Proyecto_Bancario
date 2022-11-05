@@ -29,6 +29,7 @@ public class AdminService {
     private final CheckingService checkingService;
     private final SavingsService savingsService;
     private final CreditCardService creditCardService;
+    private final ValidatorService validatorService;
 
     /*
         - Obtener un AccountHolder por su ID.
@@ -179,5 +180,13 @@ public class AdminService {
         account.setBalance(changeBalance.getBalance());
 
         return basicAccountService.save(account);
+    }
+
+    public String adminWelcome() {
+
+        String username = validatorService.getUserAuthenticated();
+
+        User user = userService.getUserByUsername(username);
+        return "Hola, Mrs./Ms. " + user.getName() + ", Bienvenido a nuestro moderno sistema bancario.";
     }
 }
