@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,8 +26,7 @@ public class ValidatorService {
     public String getUserAuthenticated () {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
-        String username = userDetails.getUsername();
-        return username;
+        return userDetails.getUsername();
     }
 
     public boolean isSecretKeyValid(String secretKey) {
@@ -54,7 +54,22 @@ public class ValidatorService {
         return roleSet;
     }
 
+    public HashMap<String, String> parseResponse(String result) {
 
+        HashMap<String, String> resultSet = new HashMap<>();
+        result = result.replaceAll("[{}\"\\[\\]]", "");
+
+        String[] pairs = result.split(",");
+
+        for ( String a : pairs ) {
+            String[] pair = a.split(":");
+            if (pair.length == 1)
+                pair = new String[]{pair[0], ""};
+            resultSet.put(pair[0],pair[1]);
+        }
+
+        return resultSet;
+    }
 
 
 }

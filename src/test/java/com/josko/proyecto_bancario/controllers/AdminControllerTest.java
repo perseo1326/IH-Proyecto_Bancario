@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josko.proyecto_bancario.models.AccountHolder;
 import com.josko.proyecto_bancario.repositories.AccountHolderRepository;
 import com.josko.proyecto_bancario.services.IntegrationTestBase;
+import com.josko.proyecto_bancario.services.ValidatorService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,12 +31,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class AdminControllerTest extends IntegrationTestBase {
 
+    private final ValidatorService validatorService;
     private final AccountHolderRepository accountHolderRepository;
     @Autowired
     public AdminControllerTest(MockMvc mockMvc,
                                WebApplicationContext webApplicationContext,
-                               ObjectMapper objectMapper, AccountHolderRepository accountHolderRepository) {
+                               ObjectMapper objectMapper, ValidatorService validatorService, AccountHolderRepository accountHolderRepository) {
         super(mockMvc, webApplicationContext, objectMapper);
+        this.validatorService = validatorService;
         this.accountHolderRepository = accountHolderRepository;
     }
 
@@ -46,23 +49,6 @@ class AdminControllerTest extends IntegrationTestBase {
 
     @AfterEach
     void tearDown() {
-    }
-
-    private HashMap<String, String> parseResponse(String result) {
-
-        HashMap<String, String> resultSet = new HashMap<>();
-        result = result.replaceAll("[{}\"\\[\\]]", "");
-
-        String[] pairs = result.split(",");
-
-        for ( String a : pairs ) {
-            String[] pair = a.split(":");
-            if (pair.length == 1)
-                pair = new String[]{pair[0], ""};
-            resultSet.put(pair[0],pair[1]);
-        }
-
-        return resultSet;
     }
 
     @Test
@@ -112,7 +98,7 @@ class AdminControllerTest extends IntegrationTestBase {
                 .andReturn();
 
 //        var y = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<HashMap<String, String>>() { } );
-        final Map<String, String> resultSet = parseResponse(mvcResult.getResponse().getContentAsString());
+        final Map<String, String> resultSet = validatorService.parseResponse(mvcResult.getResponse().getContentAsString());
 
         assertAll(
                 () -> assertEquals(201, mvcResult.getResponse().getStatus()),
@@ -160,7 +146,7 @@ class AdminControllerTest extends IntegrationTestBase {
                 )
                 .andReturn();
 
-        final Map<String, String> resultSet = parseResponse(mvcResult.getResponse().getContentAsString());
+        final Map<String, String> resultSet = validatorService.parseResponse(mvcResult.getResponse().getContentAsString());
         Long newUserId = Long.parseLong( resultSet.get("id"));
 
         Optional<AccountHolder> newUser = accountHolderRepository.findById(newUserId);
@@ -197,7 +183,7 @@ class AdminControllerTest extends IntegrationTestBase {
                 )
                 .andReturn();
 
-        final Map<String, String> resultSet = parseResponse(mvcResult.getResponse().getContentAsString());
+        final Map<String, String> resultSet = validatorService.parseResponse(mvcResult.getResponse().getContentAsString());
 
         assertAll(
                 () -> assertEquals(201, mvcResult.getResponse().getStatus()),
@@ -261,7 +247,7 @@ class AdminControllerTest extends IntegrationTestBase {
                 )
                 .andReturn();
 
-        final Map<String, String> resultSet = parseResponse(mvcResult.getResponse().getContentAsString());
+        final Map<String, String> resultSet = validatorService.parseResponse(mvcResult.getResponse().getContentAsString());
 
         assertAll(
                 () -> assertEquals(200, mvcResult.getResponse().getStatus()),
@@ -293,7 +279,7 @@ class AdminControllerTest extends IntegrationTestBase {
                 )
                 .andReturn();
 
-        final Map<String, String> resultSet = parseResponse(mvcResult.getResponse().getContentAsString());
+        final Map<String, String> resultSet = validatorService.parseResponse(mvcResult.getResponse().getContentAsString());
 
         assertAll(
                 () -> assertEquals(418, mvcResult.getResponse().getStatus()),
