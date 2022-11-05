@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/thirdparty")
@@ -31,7 +33,7 @@ public class ThirdPartyController {
      */
     @PostMapping("/transfer")
     @ResponseStatus(HttpStatus.CREATED)
-    public String sendTransferToAccountHolder(@RequestBody SendTranferThirdParty sendTranferThirdParty) {
+    public String sendTransferToAccountHolder(@Valid @RequestBody SendTranferThirdParty sendTranferThirdParty) {
 
         return thirdPartyService.sendTransferToAccountHolder(sendTranferThirdParty);
     }
