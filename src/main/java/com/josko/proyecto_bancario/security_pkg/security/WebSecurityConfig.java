@@ -69,7 +69,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/v1/admins/**").hasAuthority(RoleEnum.ROL_ADMIN.toString())
                 .antMatchers("/api/v1/accountholder/**").hasAuthority(RoleEnum.ROL_USER.toString())
-//                .antMatchers("/api/v1/signup/**").hasRole(RoleEnum.ROL_ADMIN.toString())
+                .antMatchers("/api/v1/thirdparty/**").hasAuthority(RoleEnum.ROL_THIRDPARTY.toString())
                 .antMatchers("/api/v1/signin/**").permitAll()
                 .antMatchers("/api/v1/test/**").permitAll()
 //                .antMatchers("/api/v1/**").permitAll()
